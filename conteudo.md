@@ -345,7 +345,7 @@ dados    ->|	       |-> Resultado
 * Geração de produtos parciais
 * **Processo**:
 	**Carry = 0**, **A = 0**, **M = multiplicando**, **Q = multiplicador**
-    Quantidade de bits é a quantidade de repetições.
+    	* Quantidade de bits é a quantidade de repetições.
 	* Se Q(0) = 1 => Carry e A = A + M
 	* Deslocar Carry, A, Q para direita
 	* Ao final o resultado vai estar em A e Q
