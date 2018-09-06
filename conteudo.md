@@ -439,18 +439,18 @@ dados    ->|		       |-> Resultado
 A polarização significa que o valor armazenado será sempre positivo, isso é feito  para evitar um passo extra com a transformação do expoente em complemento de dois. Isso significa somar 127 (32bits) ou 1023 (64bits) no valor do expoente.
 
 * Por exemplo, 5.72(10) no padrão IEEE 754 32 bits:
-5,72 = 101,11 = 1,0111x2^2
+	* 5,72 = 101,11 = 1,0111x2^2
 
-	|**Sinal** |**Expoente** |			**Mantissa**            |
-  |----------|-------------|------------------------------|
-	|     0    | 1000 0001 	 | 0111 0000 0000 0000 0000 000 |
+		|**Sinal** |**Expoente** |			**Mantissa**            |
+	  |----------|-------------|------------------------------|
+		|     0    | 1000 0001 	 | 0111 0000 0000 0000 0000 000 |
 
 * Por exemplo, -161.875 no padrão IEEE 756 32 bits:
-161,875 = 10100001,111 = 1,010000111x2^7
+	* 161,875 = 10100001,111 = 1,010000111x2^7
 
-	|**Sinal** |**Expoente** |			**Mantissa**            |
-  |----------|-------------|------------------------------|
-	|     1    | 1000 0110 	 | 0100 0011 1100 0000 0000 000 |
+		|**Sinal** |**Expoente** |			**Mantissa**            |
+	  |----------|-------------|------------------------------|
+		|     1    | 1000 0110 	 | 0100 0011 1100 0000 0000 000 |
 
 ## Operações aritméticas
 
