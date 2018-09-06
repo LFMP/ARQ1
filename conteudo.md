@@ -85,13 +85,13 @@ Por exemplo:
 # IAS
 Um dos primeiros computadores que implementaram o conceito de programa armazenado
 * ### Memória
-    * Palavra composta de **40 bits**:
-         ```
-    		[opcode1][operando1][opcode2][operando2]
-    		 8 bits	   12 bits    8bits	12 bits
-    	```
 	* Memória de **1024 palavras**.
 	* Dois registradores de uso geral: **AC** e **MQ**.
+	* Palavra composta de **40 bits**:
+		```
+		[opcode1][operando1][opcode2][operando2]
+		8 bits	   12 bits   8bits     12 bits
+		```
 * ### Instruções
     * **Tranferência**:
         ```assembly
@@ -146,39 +146,39 @@ Um dos primeiros computadores que implementaram o conceito de programa armazenad
 # Desempenho
 * Segundo a Lei de Moore o número de transistores em um chip dobra a cada 18 meses.
 * Como aumentar o desempenho?
-    * Empacotamento de instruções
-    * Largura de Banda
-    * Memória cache
-    * Pipeline
-    * Busca de instrução => Decodificação => Busca de operandos => Execução => Escrita de resultados
-    * Previsão de desvio
-    * Manter histórico de saltos
-    * Maioria dos saltos é laço de repetição
-    * Reorganização das instruções
-      ```assembly
-      	add rax, rbx
-    	add rcx, rax
-	```
-        * O código acima tem dependencia, a segunda estrução fica esperando na busca de operandos até **RAX** sair da escrita dos resultados.
-    * Executação especulativa
-        * Previsão de valores e desvio
-	* Multinúcleo
-	* Hyper-Threading
-    * Avaliação de desempenho
-	    * Clock
-	    * métricas
-    		* **CPI** (ciclos por instrução);
-    		* **CPI Efetivo** (qtd. de instruções por qtd. de ciclos)
-    		* **mips** (milhões de instruções executadas por segundo, ou seja,  frequência por CPI Efetivo)
-		    * **Tempo de execução** (qtd. de ciclos por frequência)
-* **Exemplo**: Considere um processador de 40 MHz e um programa com as instruções abaixo.Calcule o CPI efetivo, mips e o tempo de execução.
+	* Empacotamento de instruções
+	* Largura de Banda
+	* Memória cache
+	* Pipeline
+	* Busca de instrução => Decodificação => Busca de operandos => Execução => Escrita de resultados
+	* Previsão de desvio
+	* Manter histórico de saltos
+	* Maioria dos saltos é laço de repetição
+	* Reorganização das instruções
+		```assembly
+		add rax, rbx
+		add rcx, rax
+		```
+	* O código acima tem dependencia, a segunda estrução fica esperando na busca de operandos até **RAX** sair da escrita dos resultados.
+	* Executação especulativa
+		* Previsão de valores e desvio
+		* Multinúcleo
+		* Hyper-Threading
+	* Avaliação de desempenho
+		* Clock
+		* Métricas
+			* **CPI** (ciclos por instrução);
+			* **CPI Efetivo** (qtd. de instruções por qtd. de ciclos)
+			* **mips** (milhões de instruções executadas por segundo, ou seja,  frequência por CPI Efetivo)
+			* **Tempo de execução** (qtd. de ciclos por frequência)
+	* **Exemplo**: Considere um processador de 40 MHz e um programa com as instruções abaixo.Calcule o CPI efetivo, mips e o tempo de execução.
 
-    |     Tipo     | 	Quantidade  |	CPI  |	 Qtd. de Ciclos	  |
-    |--------------|----------------|--------|--------------------|
-    |Aritmética    |	45000	    |	1    |	    45000         |
-    |Transferência |	32000	    |	2    |	    64000         |
-    |Desvio        |	15000	    |	2    |	    30000	  |
-    |armazenamento |	8000	    |	2    |	    16000	  |
+	    |     Tipo     | 	Quantidade  |	CPI  |	 Qtd. de Ciclos	  |
+	    |--------------|----------------|--------|--------------------|
+	    |Aritmética    |	45000	    |	1    |	    45000         |
+	    |Transferência |	32000	    |	2    |	    64000         |
+	    |Desvio        |	15000	    |	2    |	    30000	  |
+	    |armazenamento |	8000	    |	2    |	    16000	  |
 
 	* CPI Efetivo
 		* Qtd. de instruções: 100000
@@ -240,7 +240,7 @@ leitura/escrita  ->|controlador|-> dados
 		   |	       | 
         endereço ->|    ou     |
 		   |	       |
-           dados ->|módulo e/s |-> interrupção
+           dados ->|módulo E/S |-> interrupção
 		   |           |
 		   -------------
 ```
