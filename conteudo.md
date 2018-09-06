@@ -94,7 +94,7 @@ Um dos primeiros computadores que implementaram o conceito de programa armazenad
 	* Dois registradores de uso geral: **AC** e **MQ**.
 * ### Instruções
     * **Tranferência**:
-        ```
+        ```assembly
     	load mq                 // ac = mq
     	load mq, m(x)           // mq = mem(x)
     	stor m(x)               // mem(x) = ac
@@ -102,24 +102,24 @@ Um dos primeiros computadores que implementaram o conceito de programa armazenad
     	```
     * **Salto**:
     	* Incondicional:
-        	```
+        	```assembly
         	jump m(x,0:19)         //0:19 = primeira instrução
         	jump m(x,20:39)        //20:39 = segunda instrução
         	```
         * Se **AC > 0**:
-            ```
+            ```assembly
         	jump +m(x,0:19)
         	jump +m(x,20:39)
             ```
     * **Aritimética**:
-        ```
+        ```assembly
     	add m(x) -> ac = ac + mem(x)
     	sub m(x) -> ac = ac - mem(x)
     	mul m(x) -> mq = mq * mem(x)
     	div m(x) -> mq = mq / mem(x)
         ```
     * **Exemplo:** Programa no IAS para somar dois valores na posição, **100** e **101** da memória e armazenar o valor na posição **110**.
-        ```
+        ```assembly
     	load m(100)
     	add m(101)
     	stor m(110)
@@ -155,8 +155,8 @@ Um dos primeiros computadores que implementaram o conceito de programa armazenad
     * Manter histórico de saltos
     * Maioria dos saltos é laço de repetição
     * Reorganização das instruções
-        ```
-        add rax, rbx
+      ```assembly
+      add rax, rbx
     	add rcx, rax
     	```
         * O código acima tem dependencia, a segunda estrução fica esperando na busca de operandos até **RAX** sair da escrita dos resultados.
@@ -172,12 +172,14 @@ Um dos primeiros computadores que implementaram o conceito de programa armazenad
     		* **mips** (milhões de instruções executadas por segundo, ou seja,  frequência por CPI Efetivo)
 		    * **Tempo de execução** (qtd. de ciclos por frequência)
 * **Exemplo**: Considere um processador de 40 MHz e um programa com as instruções abaixo.Calcule o CPI efetivo, mips e o tempo de execução.
+
     |     Tipo   	 | 	Quantidade  |	CPI  |	 Qtd. de Ciclos	  |
-    |----------------|--------------|--------|--------------------|
-    |Aritmética      |	45000		|	1	 |		45000         |
-    |Transferência   |	32000		|	2    |		64000         |
-    |Desvio          |	15000		|	2    |		30000		  |
-    |armazenamento   |	 8000		|	2    |		16000		  |
+    |--------------|--------------|------|--------------------|
+    |Aritmética    |			45000		|	1	 	 |			45000         |
+    |Transferência |			32000		|	2    |			64000         |
+    |Desvio        |			15000		|	2    |			30000		  		|
+    |armazenamento |	 		8000		|	2    |			16000		  		|
+
 	* CPI Efetivo
 		* Qtd. de instruções: 100000
 		* Qtd. de ciclos(qtd. * cpi): 155000
@@ -193,14 +195,14 @@ Um dos primeiros computadores que implementaram o conceito de programa armazenad
 
 * **Exemplo**: Considere um processador de 500 MHz e um programa com 2 milhões de instruções distribuidas abaixo. Calcule o CPI efetivo, mips e o tempo de execução.
 
-    |     Tipo   		 | 	Quantidade   |	CPI   |	 	Qtd.	       |
-    |--------------------|---------------|--------|--------------------|
-    |Aritmética      	 |		60% 	 |	 1    |		1200000	  	   |
-    |load/store com cache|		18%		 |	 2    |		 360000 	   |
-    |Desvio          	 |		12%		 |	 4    |		 240000		   |
-    |load/store sem cache| 		10%		 |	 8    |		 200000		   |
+    |     Tipo   		 		 | 	Quantidade   |	CPI   |	 	Qtd.	       |
+    |--------------------|---------------|--------|----------------|
+    |Aritmética      	 	 |		60% 	 		 |	 1    |		1200000  	   |
+    |load/store com cache|		18%		 		 |	 2    |		 360000 	   |
+    |Desvio          	 	 |		12%		 		 |	 4    |		 240000		   |
+    |load/store sem cache| 		10%		 		 |	 8    |		 200000		   |
 
-	* cpi efetivo
+	* CPI Efetivo
 		* Qtd de instruções = 2000000
 		* Qtd de ciclos = 4480000
 		* CPI Efetivo = 2.24
@@ -232,37 +234,37 @@ conecta os principais componentes do computador
 	* Dispositivo 1
 	* Dispositivo 2
 ```
-				   -------------
-				   |		   |
+				   				 -------------
+				   				 |				   |
 leitura/escrita  ->|controlador|-> dados 
-				   |  		   | 
+				   				 |	  		   | 
         endereço ->|    ou	   |
-				   |		   |
+				   				 |				   |
            dados ->|módulo e/s |-> interrupção
-				   |		   |
-				   -------------
+				   				 |				   |
+				   				 -------------
 ```
 # Memória
 ```
-				   -------------
-				   |           |
+				   				 -------------
+				   				 |           |
 leitura/escrita  ->|           | 
-				   |		   |
+				   				 |				   |
         endereço ->|  Memória  |-> dados
-				   |		   |
+				   				 |				   |
            dados ->|           |
-				   |		   |
-				   -------------
+				   				 |				   |
+				   				 -------------
 ```
 # CPU
 ```
-					-------------
-					|		    |
+										-------------
+										|				    |
 Instruções/dados  ->|           |-> endereço 
-                    |	CPU     |-> controle
+                    |		CPU     |-> controle
       interrupção ->|           |-> dados
-					|		    |
-				    -------------
+										|				    |
+				    				-------------
 ```
 # Barramento de dados
 * Transmite dados.
@@ -300,13 +302,13 @@ Instruções/dados  ->|           |-> endereço
 * A ULA opera sobre dois tipos, inteiro e ponto flutuantes.
 * Como representar tais números?
 ```
-		   -------------
-		   |		   |
+		   		 -------------
+		   		 |				   |
 operação ->|           |-> Flags
            |    ULA    |
-dados    ->|	       |-> Resultado
-		   |		   |
-		   -------------
+dados    ->|		       |-> Resultado
+		   		 |				   |
+		   		 -------------
 ```
 
 ## Representação sinal-magnitude
@@ -352,18 +354,18 @@ dados    ->|	       |-> Resultado
 
     | Carry	|  A |   Q 	  |   M     |   Passos      |
     |-------|----|--------|---------|---------------|
-    |0		|0000|	1101  | 1011	|Valores Inicias|
+    |0			|0000|	1101  | 1011		|Valores Inicias|
     |       |    |        |         | **Passo 1**   |
-    |0		|1011|	1101  |	1011	| Adição        |
-    |0		|0101|	1110  |	1011	|Deslocamento   |
+    |0			|1011|	1101  |	1011		| Adição        |
+    |0			|0101|	1110  |	1011		|Deslocamento   |
     |       |    |        |         | **Passo 2**   |
-    |0 		|0010|	1111  |	1011	|Deslocamento   |
+    |0 			|0010|	1111  |	1011		|Deslocamento   |
     |       |    |        |         | **Passo 3**   |
-    |0		|1101|	1111  |	1011	|Adição         |
-    |0		|0110|	1111  |	1011	|Deslocamento   |
+    |0			|1101|	1111  |	1011		|Adição         |
+    |0			|0110|	1111  |	1011		|Deslocamento   |
     |       |    |        |         | **Passo 4**   |
-    |1		|0001|	1111  |	1011	|Adição         |
-    |0		|1000|	1111  |	1011	|Deslocamento   |
+    |1			|0001|	1111  |	1011		|Adição         |
+    |0			|1000|	1111  |	1011		|Deslocamento   |
 
 * **Resultado**: 1000 1111(base 2) = 143
 
@@ -381,17 +383,17 @@ dados    ->|	       |-> Resultado
 * **Ex.**: 7 * 3
 
     | A		|  Q | Q(-1) |   M   |       Passos          |
-    |-------|----|-------|-------|-----------------------|
+    |-----|----|-------|-------|-----------------------|
     |0000	|0011|	 0   |	0111 |Valores Inicias        |
-    |       |    |       |       |**Passo 1**            |
+    |     |    |       |       |**Passo 1**            |
     |1001	|0011|	 0	 |	0111 |Subtração (a= a - m)   |
     |1100	|1001|	 1	 |	0111 |Deslocamento a direita |
-    |       |    |       |       |**Passo 2**            |
+    |     |    |       |       |**Passo 2**            |
     |1110	|0100|	 1	 |	0111 |Deslocamento a direita |
-    |       |    |       |       |**Passo 3**            |
+    |     |    |       |       |**Passo 3**            |
     |0101	|0100|	 1	 |	0111 |Adição (a = a + m)     |
     |0010	|1010|	 0	 |	0111 |Deslocamento           |
-    |       |    |       |       |**Passo 4**            |
+    |     |    |       |       |**Passo 4**            |
     |0001	|0101|	 0	 |	0111 |Deslocamento           |
 
 * **Resultado**: 0001 0101(base 2) = 21
@@ -399,16 +401,16 @@ dados    ->|	       |-> Resultado
 * **Ex.**: 4 * -2
 
     | A		|  Q | Q(-1) |   M   |       Passos          |
-    |-------|----|-------|-------|-----------------------|
+    |-----|----|-------|-------|-----------------------|
     |0000	|0100|	 0   |	1110 |Valores Inicias        |
-    |       |    |       |       |**Passo 1**            |
+    |     |    |       |       |**Passo 1**            |
     |0000	|0010|	 0	 |	1110 |Deslocamento a direita |
-    |       |    |       |       |**Passo 2**            |
+    |     |    |       |       |**Passo 2**            |
     |0000	|0001|	 0	 |	1110 |Deslocamento a direita |
-    |       |    |       |       |**Passo 3**            |
+    |     |    |       |       |**Passo 3**            |
     |0000	|0001|	 1	 |	1110 |Subtração (a = a - m)  |
     |0000	|0000|	 1	 |	1110 |Deslocamento           |
-    |       |    |       |       |**Passo 4**            |
+    |     |    |       |       |**Passo 4**            |
     |1111	|0000|	 1	 |	1110 |Adição (a = a - m)     |
     |1111	|1000|	 0	 |	1110 |Deslocamento           |
     
@@ -417,8 +419,7 @@ dados    ->|	       |-> Resultado
 # Aritmética Computacional - Números Reais
 ```
 +- Mantissa x Base ^ expoente
-    7,452   x  10  ^   9
-    7 452 000 000(10)
+    7,452   x  10  ^   9 = 7 452 000 000(10)
 ```
 * Por exemplo:
     * 11 1010 0000(2) = 1,1101x2^9
@@ -440,15 +441,15 @@ A polarização significa que o valor armazenado será sempre positivo, isso é 
 * Por exemplo, 5.72(10) no padrão IEEE 754 32 bits:
 5,72 = 101,11 = 1,0111x2^2
 
-	|**Sinal** |**Expoente** |		**Mantissa**            |
-    |----------|-------------|------------------------------|
+	|**Sinal** |**Expoente** |			**Mantissa**            |
+  |----------|-------------|------------------------------|
 	|     0    | 1000 0001 	 | 0111 0000 0000 0000 0000 000 |
 
 * Por exemplo, -161.875 no padrão IEEE 756 32 bits:
 161,875 = 10100001,111 = 1,010000111x2^7
 
-	|**Sinal** |**Expoente** |		**Mantissa**            |
-    |----------|-------------|------------------------------|
+	|**Sinal** |**Expoente** |			**Mantissa**            |
+  |----------|-------------|------------------------------|
 	|     1    | 1000 0110 	 | 0100 0011 1100 0000 0000 000 |
 
 ## Operações aritméticas
@@ -461,13 +462,13 @@ A polarização significa que o valor armazenado será sempre positivo, isso é 
 
 Por exemplo: 37 - 4,5
 
-|**Sinal**| **Expoente**   |**Bit I**   |		**Mantissa** 		    |
+|**Sinal**| **Expoente**   |**Bit I**   |		**Mantissa** 		  				  |
 |---------|----------------|------------|-------------------------------|
-|    0	  |   1000 0100    |	 1	    | 0010 1000 0000 0000 0000 000  |
-|    1	  |   1000 0001    |	 1	    | 0010 0000 0000 0000 0000 000  |
-|    	  |                |	 	    |                               |
-|    1    |   1000 0010    |     0      | 1001 0000 0000 0000 0000 000	|
-|    1    |   1000 0011    |     0      | 0100 1000 0000 0000 0000 000	|
-|    1    |   1000 0100    |	 0	    | 0010 0100 0000 0000 0000 000	|
-|    	  |                |	 	    |                               |
-|	  0	  |   1000 0100    |	 1	    | 0000 0100 0000 0000 0000 000	|
+|    0	  |   1000 0100    |	 		1    	| 0010 1000 0000 0000 0000 000  |
+|    1	  |   1000 0001    |	 		1    	| 0010 0000 0000 0000 0000 000  |
+|    	  	|                |	 	    		|                               |
+|    1    |   1000 0010    |     	0     | 1001 0000 0000 0000 0000 000	|
+|    1    |   1000 0011    |     	0     | 0100 1000 0000 0000 0000 000	|
+|    1    |   1000 0100    |	 		0    	| 0010 0100 0000 0000 0000 000	|
+|    	  	|                |	 	    		|                               |
+|	  0	  	|   1000 0100    |	 		1   	| 0000 0100 0000 0000 0000 000	|
