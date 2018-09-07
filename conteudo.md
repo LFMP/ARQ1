@@ -111,7 +111,7 @@ Um dos primeiros computadores que implementaram o conceito de programa armazenad
 		jump +m(x,0:19)
 		jump +m(x,20:39)
 		```
-    * **Aritimética**:
+    * **Aritmética**:
         ```assembly
     	add m(x) -> ac = ac + mem(x)
     	sub m(x) -> ac = ac - mem(x)
@@ -466,7 +466,7 @@ A polarização significa que o valor armazenado será sempre positivo, isso é 
 
 Por exemplo: 37 - 4,5
 
-|**Sinal**| **Expoente**   |**Bit I**   |		**Mantissa** 		  				  |
+|**Sinal**| **Expoente**   |**Bit I**   |	**Mantissa**            |
 |---------|----------------|------------|-------------------------------|
 |    0	  |   1000 0100    |	1    	| 0010 1000 0000 0000 0000 000  |
 |    1	  |   1000 0001    |	1    	| 0010 0000 0000 0000 0000 000  |
