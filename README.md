@@ -4,5 +4,5 @@ Disciplina ofertada no curso de Ciência de Computação da UEM em 2018 pelo pro
 
 * [Conteúdo da disciplina e anotações](../master/conteudo.md)
 * [Slides](/Slides)
-* [Listas de execícios](../Listas)
-* [Exemplos de código em Assembly](../Codigos%20exemplos)
+* [Listas de execícios](/Listas)
+* [Exemplos de código em Assembly](/Codigos%20exemplos)
