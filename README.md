@@ -2,7 +2,7 @@
 
 Disciplina ofertada no curso de Ciência de Computação da UEM em 2018 pelo professor Lucas de Oliveira Teixeira.
 
-* [Conteúdo da disciplina e anotações](../blob/master/conteudo.md)
-* [Slides](../tree/master/Slides)
-* [Listas de execícios](../tree/master/Listas)
-* [Exemplos de código em Assembly](../tree/master/Codigos%20exemplos)
+* [Conteúdo da disciplina e anotações](../master/conteudo.md)
+* [Slides](/Slides)
+* [Listas de execícios](../Listas)
+* [Exemplos de código em Assembly](../Codigos%20exemplos)
