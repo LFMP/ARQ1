@@ -381,8 +381,7 @@ dados    ->|	       |-> Resultado
     * No início, A e Q1 são 0
     * O bit menos significativo de Q é o comparado com Q1
     * Se os bits forem iguais, A, Q e Q(-1) são deslocados para a direita
-    * Se forem diferentes, o M śerá somado ou subtraído de A, e depois A, Q e Q(-1) serão deslocados para a direita se os bits forem 0-1 soma-se. Se os bits forem 1-0 subtrai-se.
-*Usamos sempre o deslocamento aritmético
+    * Se forem diferentes, o M śerá somado ou subtraído de A, e depois A, Q e Q(-1) serão deslocados para a direita se os bits forem 0-1 soma-se. Se os bits forem 1-0 subtrai-se. Usamos sempre o deslocamento aritmético.
 
 * **Ex.**: 7 * 3
 
@@ -476,3 +475,140 @@ Por exemplo: 37 - 4,5
 |    1    |   1000 0100    |	0    	| 0010 0100 0000 0000 0000 000	|
 |    	  |                |   		|                               |
 |    0 	  |   1000 0100    |	1   	| 0000 0100 0000 0000 0000 000	|
+
+# Conjunto de instruções
+
+* A operação da CPU é determinada pelas instruções que ela suporta.
+* A coleção das instruções é chamada de **conjunto de instruções**.
+* Elementos:
+	* Código da operação (OPCODE)
+		* Determina qual a operação(soma, multiplicação, etc)
+	* Operando Fonte
+	* Operando Destino
+	* Referência para próxima instrução
+		* Não é comum estar presente
+
+Por exemplo, uma instrução de 16 bits:
+
+  |**OPCODE**|**Fonte**|**Destino**|
+  |----------|---------|-----------|
+  |  4 bits  |  6 bits |   6 bits  |
+
+* Representação da instrução:
+	* A instrução é basicamente uma seqência de bits.
+	* Para facilitar para o programador as instruções podem ser representadas em Assembly.
+
+* Tipos de instrução
+	* Processamento
+	* Armazenamento de dados
+	* Movimentação de dados para E/S
+	* Controle de flexo
+
+* Número de endereços
+	* Mais endereços
+		* Instruções mais complexas (maiores)
+		* Menos instruções por programa
+
+	* Menos endereços
+		* Mais intruções por programa
+		* Instruções mais simples
+		* Execução mais rápida
+	* É a quantidade de fontes ou destinos que podemos usar
+	* 3 endereços => A = A + B + C
+	* 2 endereços => A = A + B
+	* 1 endereço => A = A + B
+		* O acumulador é usado implicitamente, por exemplo:
+		```assembly
+		load rax
+		add rbx
+		store rax
+		```
+	* 0 endereços => A = A + B
+		* A pilha é usada implicitamente
+		```assembly
+		push rax
+		push rbx
+		add
+		pop rax
+		```
+
+
+**Exercício**: Implemente a operação abaixo em assembly com 3, 2, 1 e 0 endereços:
+
+```
+A = ((A-B)+C)*D
+```
+
+**R.:**
+
+* 3 endereços
+	```assembly
+	sub rax, rax, rbx
+	add rax, rax, rcx
+	mul rax, rax, rdx
+	```
+* 2 endereços
+	```assembly
+	sub rax, rbx
+	add rax, rcx
+	mul rax, rdx
+	```
+* 1 endereço
+	```assembly
+	load rax
+	sub rbx
+	add rcx
+	mul rdx
+	store rax
+	```
+* 0 endereços
+	```assembly
+	push rbx
+	push rax
+	sub
+	push rcx
+	add
+	push rdx
+	mul
+	pop rax
+	```
+
+* Tipos de operandos
+	* Endereços.
+	* Números.
+	* Caractes(ASCII).
+	* Dados lógicos (V/F).
+
+* Tipos de operações
+	* Transferência de dados (MOV):
+		* Existem arquiteturas que diferenciam movimentações entre registradores e memórias.
+	* Aritméticas:
+		* Básicas (soma, subtração, multiplicação e divisão).
+		* A operação altera as flags internas que são usadas no salto condicional.
+	* Lógica:
+		* Básicas (NOT, AND, OR e XOR).
+		* A comparação também é considerada lógica (CMP).
+	* Deslocamento:
+		* Move todos os bits de um número uma casa para a direita ou esquerda.
+		* **Deslocamento lógico:** o bit que entra é sempre zero.
+		* **Deslocamento aritmético:** o sinal do número é mantido.
+		* **Rotação:** o bit que sai entra no outro lado.
+
+* Entrada e saída
+	* Instruções específicas ou movimentação e interrupção.
+	* PRINT de um caracter:
+	```assembly
+	mov $4,%eax
+	mov $1,%ebx
+	mov str,%ecx
+	mov str_tamanho,%edx
+	int 80h
+	```
+
+* Controle do sistema
+	* Instruções privilegiadas.
+	* Normalmente envolvem a manipulação do estado interno.
+
+* Transferência de controle
+	* Desvios.
+	* Procedimentos.
