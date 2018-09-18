@@ -2,6 +2,8 @@
 
 Disciplina ofertada no curso de Ciência de Computação da UEM em 2018 pelo professor Lucas de Oliveira Teixeira.
 
+Implementações feitas para Linux usando Intel x64.
+
 * [Conteúdo da disciplina e anotações](../master/conteudo.md)
 * [Slides](/Slides)
 * [Listas de execícios](/Listas)
