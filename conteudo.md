@@ -476,8 +476,8 @@ Por exemplo: 37 - 4,5
 |    	  |                |   		|                               |
 |    0 	  |   1000 0100    |	1   	| 0000 0100 0000 0000 0000 000	|
 
-## Representação da instrução:
-* A instrução é basicamente uma seqência de bits.
+# Representação da instrução:
+* A instrução é basicamente uma sequência de bits.
 * Para facilitar para o programador as instruções podem ser representadas em Assembly.
 
 * Tipos de instrução
@@ -665,4 +665,5 @@ O endereçamento se refere as diferentes maneiras que o programador pode se refe
 	```assembly
 	add [rax]
 	mov rbx, [rax]
+	add [rbp-8],10
 	```
