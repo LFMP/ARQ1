@@ -677,7 +677,7 @@ O endereçamento se refere as diferentes maneiras que o programador pode se refe
 	```
 	* Instrução:
 	```
-	    |Opcode|Endereço|Deslocamento|----|
+	   |Opcode|Endereço|Deslocamento|----|
 			|		      |
 			|     Registradores   |		Memória
 			|     -------------   |      -------------
