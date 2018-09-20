@@ -698,3 +698,7 @@ O endereçamento se refere as diferentes maneiras que o programador pode se refe
 	add
 	pop C
 	```
+## Formato da instrução
+* O conjunto de instruções pode possuir instruções com tamanhos diferentes ou com tamanho de campos diferentes.
+* Suporte a um conjunto complexo de instruções(CISC).
+* Suporte a um conjunto reduzido de instruções(RISC).
