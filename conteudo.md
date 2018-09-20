@@ -476,27 +476,9 @@ Por exemplo: 37 - 4,5
 |    	  |                |   		|                               |
 |    0 	  |   1000 0100    |	1   	| 0000 0100 0000 0000 0000 000	|
 
-# Conjunto de instruções
-
-* A operação da CPU é determinada pelas instruções que ela suporta.
-* A coleção das instruções é chamada de **conjunto de instruções**.
-* Elementos:
-	* Código da operação (OPCODE)
-		* Determina qual a operação(soma, multiplicação, etc)
-	* Operando Fonte
-	* Operando Destino
-	* Referência para próxima instrução
-		* Não é comum estar presente
-
-Por exemplo, uma instrução de 16 bits:
-
-  |**OPCODE**|**Fonte**|**Destino**|
-  |----------|---------|-----------|
-  |  4 bits  |  6 bits |   6 bits  |
-
-* Representação da instrução:
-	* A instrução é basicamente uma seqência de bits.
-	* Para facilitar para o programador as instruções podem ser representadas em Assembly.
+## Representação da instrução:
+* A instrução é basicamente uma seqência de bits.
+* Para facilitar para o programador as instruções podem ser representadas em Assembly.
 
 * Tipos de instrução
 	* Processamento
@@ -612,3 +594,75 @@ A = ((A-B)+C)*D
 * Transferência de controle
 	* Desvios.
 	* Procedimentos.
+
+## Modos de endereçamento
+
+O endereçamento se refere as diferentes maneiras que o programador pode se referir a um operando.
+
+* Endereçamento imediato
+	* O campo de endereço contém o próprio valor do operando, ele é parte da instrução.
+	* Por exemplo:
+	```assembly
+	add 5       ;           Instrução de um operando
+	add rax, 10 ;           Instrução de dois operandos
+	```
+	* Instrução:
+	```
+	|Opcode|Operando|
+	```
+* Endereçamento direto:
+	* O campo de endereço contém o endereço do operando. Normalmente usado nas variáveis do **.section data.**
+	* Por exemplo:
+	```assembly
+	add A
+	add rax, fmt
+	;assumindo que "A" e "fmt" estão definidos no ".section data"
+	```
+	* Instrução:
+	```
+	    |Opcode|Endereço|
+			|
+			|	 Memória
+			|     -------------
+			|     |    ...    |
+			|     |-----------|
+			|---->|	Operando  |
+			      |-----------|
+			      |	   ...    |
+			      -------------
+	```
+* Endereçamento indireto
+	* O campo de endereço contém um endereço de memória que contém o endereço do operando.
+	* Por exemplo:
+	```assembly
+	add [A]
+	add rbx, [B]
+	;A e B são endereços de memória.
+	```
+	* Instrução:
+	```
+	    |Opcode|Endereço|
+			|
+			|	 Memória
+			|     -------------
+			|     |    ...    |
+			|     |-----------|
+			|     |	Operando  |<----|
+			|     |-----------|     |
+			|     |	   ...    |     |
+			|---->|     A     |-----|
+			      -------------
+	```
+* Endereçamento direto por registrador
+	* Campo de endereço contém o registrador que contém o operando.
+	* Por exemplo:
+	```assembly
+	add rbx, rax
+	```
+* Endereçamento indireto por registrador
+	* Campo de endereço contém o registrador que contém o endereço do operando.
+	* Por exemplo:
+	```assembly
+	add [rax]
+	mov rbx, [rax]
+	```
