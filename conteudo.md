@@ -683,7 +683,7 @@ O endereçamento se refere as diferentes maneiras que o programador pode se refe
 			|     -------------   |      -------------
 			|     |    ...    |   |      |    ...    |
 			|     |-----------|   |      |-----------|
-			|---->|	    R     |--|+|---->|  Operando |
+			|---->|	    R     |--(+)---->|  Operando |
 			      |-----------|          |-----------|
 			      |	   ...    |          |    ...    |
 			      -------------          -------------
