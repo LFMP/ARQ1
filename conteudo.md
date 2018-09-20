@@ -667,3 +667,34 @@ O endereçamento se refere as diferentes maneiras que o programador pode se refe
 	mov rbx, [rax]
 	add [rbp-8],10
 	```
+* Endereçamento por deslocamento
+	* O campo de endereços contém:
+		* Endereço base
+		* Valor deslocamento
+	* Por exemplo:
+	```assembly
+	add [rbp-8],10
+	```
+	* Instrução:
+	```
+	    |Opcode|Endereço|Deslocamento|----|
+			|		      |
+			|     Registradores   |		Memória
+			|     -------------   |      -------------
+			|     |    ...    |   |      |    ...    |
+			|     |-----------|   |      |-----------|
+			|---->|	    R     |--|+|---->|  Operando |
+			      |-----------|          |-----------|
+			      |	   ...    |          |    ...    |
+			      -------------          -------------
+	```
+* Endereçamento relativo
+	* O endereço base é implicito como o endereço da instrução atual. Assim, o campo de endereço contém apenas o valor do deslocamento.
+* Endereçamento na pilha
+	* Os operandos ficam implicitamento no topo da pilha. Por exemplo:
+	```assembly
+	push A
+	push B
+	add
+	pop C
+	```
