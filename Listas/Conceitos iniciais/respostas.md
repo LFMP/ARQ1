@@ -24,6 +24,22 @@ Finalmente, é preciso haver controle dessas três funções, e esse controle é
 
 **5. Cite os possíveis níveis de um computador. Quais níveis são mais estudados na disciplina de Arquitetura e Organização de Computadores?**
 
+Existem muitos níveis de abstração nos quais o computador pode ser analisado:
+* Nível mais alto: O usuário executa programas.
+* Nível mais baixo: Consiste de transistores e fios.
+
+Possíveis níveis:
+
+* Nível do usuário: programas
+* Linguagens de Alto Nível (Java, Pascal, C/C++)
+* Linguagem Assembly (Código de Máquina)
+* Micro-instruções
+* Unidades Funcionais (Memória, ULA, etc.)
+* Portas Lógicas
+* Transistores e fios
+
+O projeto conceitual e fundamental da estrutura operacional de um sistema computacional. Ela é o estudo dos requisitos necessários para que um computador funcione e de como organizar os diversos componentes para obter melhores desempenhos.
+
 **6. O que é um computador de programa armazenado?**
 
 Em um computador de programa armazenado, os programas são representados em uma forma adequada para armazenar na memória ao lado dos dados. O computador obtém suas instruções lendo-as da memória, e um programa pode ser alterado de acordo com os valores de uma porção da memória.
@@ -65,6 +81,8 @@ Durante o ciclo de busca (fetch cycle), o opcode da próxima instrução é carr
 
 **13. No IBM 360 modelos 65 e 75, os endereços são espalhados em duas unidades separadas de memória principal (Por exemplo, todas as palavras pares em uma unidade e ímpares em outra unidade). Qual poderia ser a finalidade dessa técnica?**
 
+Isto torna os modelos compatíveis entre si, uma vez que um programa escrito para um modelo podia ser executado por um outro modelo da série, sendodiferente apenas o tempo requerido para sua execução.
+
 **14. O desempenho do IBM 360 modelo 75 possui um desempenho relativo cinquenta vezes maior que o IBM modelo 30, embora o tempo de ciclo de instrução seja apenas cinco vezes mais rápido (Tabela 4 do Livro). Como você explica essa discrepância.**
 
 No Modelo 30, somente 1 byte (8 bits) poderia ser apanhado da memória principal de cada vez, contra 8 bytes por vez no Modelo 75.
@@ -94,6 +112,8 @@ No Modelo 30, somente 1 byte (8 bits) poderia ser apanhado da memória principal
 A execução de uma instrução envolve uma série de etapas discretas, como buscar a instrução na memória, decodificar as diversas partes da instrução, carregar e armazenar dados e realizar operações aritméticas e lógicas. Assim, grande parte das instruções na maioria dos processadores requer múltiplos ciclos de clock para completar. Algumas instruções podem usar apenas alguns ciclos, enquanto outras exigem dezenas. Além disso, quando é usado o pipeline, múltiplas instruções estão sendo executadas simultaneamente. Assim, uma comparação direta de velocidades de clock em diferentes processadores não diz a história toda sobre o desempenho.
 
 **18. O ENIAC era uma máquina decimal, onde um registrador era representado por um anel de dez válvulas. A qualquer momento, somente uma válvula é ativa por vez, representando um dos dez dígitos. Como essa representação poderia ser otimizado?**
+
+O ENIAC poderia utilizar o sistema binário para representações, assim a quantidade de instruçõs que poderiam ser representadas seria maior. 
 
 **19. Qual a relação da linguagem Assembly com a Arquitetura e Organização de Computadores.**
 
