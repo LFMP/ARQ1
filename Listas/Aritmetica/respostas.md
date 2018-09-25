@@ -107,9 +107,58 @@ A Representação sinal-magnitude utiliza o bit mais significativo da palavra co
 
 * **1100 * 1010**
 
+  | A	  |  Q | Q(-1) |   M   |       Passos          |
+  |-----|----|-------|-------|-----------------------|
+  |0000 |1100|   0   |  1010 |Valores Inicias        |
+  |     |    |       |       |**Passo 1**            |
+  |0000 |0110|   0   |  1010 |Deslocamento a direita |
+  |     |    |       |       |**Passo 2**            |
+  |0000 |0011|   0   |  1010 |Deslocamento a direita |
+  |     |    |       |       |**Passo 3**            |
+  |0110 |0011|   0   |  1010 |Subtração (a = a - m)  |
+  |0011 |0001|   1   |  1010 |Deslocamento           |
+  |     |    |       |       |**Passo 4**            |
+  |0001 |1000|   1   |  1010 |Deslocamento           |
+
+  R.: 0001 1000
+
 * **0101 * 1010**
 
+  | A	  |  Q | Q(-1) |   M   |       Passos          |
+  |-----|----|-------|-------|-----------------------|
+  |0000 |0101|   0   |  1010 |Valores Inicias        |
+  |     |    |       |       |**Passo 1**            |
+  |0110 |0101|   0   |  1010 |Adição (a = a + m)     |
+  |0011 |0010|   1   |  1010 |Deslocamento a direita |
+  |     |    |       |       |**Passo 2**            |
+  |1101 |0010|   1   |  1010 |Soma (a = a + m)       |
+  |1110 |1001|   0   |  1010 |Deslocamento a direita |
+  |     |    |       |       |**Passo 3**            |
+  |0100 |1001|   0   |  1010 |Subtração (a = a - m)  |
+  |0010 |0100|   1   |  1010 |Deslocamento           |
+  |     |    |       |       |**Passo 4**            |
+  |1100 |0100|   1   |  1010 |Soma (a = a + m)       |
+  |1110 |0010|   0   |  1010 |Deslocamento           |
+
+  R.: 1100 1010
+
 * **0011 * 1011**
+
+  | A	  |  Q | Q(-1) |   M   |       Passos          |
+  |-----|----|-------|-------|-----------------------|
+  |0000 |0011|   0   |  1011 |Valores Inicias        |
+  |     |    |       |       |**Passo 1**            |
+  |0101 |0011|   0   |  1011 |Adição (a = a + m)     |
+  |0010 |1001|   1   |  1011 |Deslocamento a direita |
+  |     |    |       |       |**Passo 2**            |
+  |0001 |0100|   1   |  1011 |Deslocamento a direita |
+  |     |    |       |       |**Passo 3**            |
+  |1100 |0100|   1   |  1011 |Soma (a = a + m)       |
+  |1110 |0010|   0   |  1011 |Deslocamento           |
+  |     |    |       |       |**Passo 4**            |
+  |1111 |0001|   0   |  1011 |Deslocamento           |
+
+  R.: 1111 0001
 
 **8. Porque na representação de número em ponto flutuante em um computador não há a necessidade de se representar a base?**
 
