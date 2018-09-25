@@ -1,6 +1,6 @@
 ;MOVIMENTAÇÃO
 mov destino, fonte
-mov ax, 200
+mov rax, 200
 mov rbx, 2fh
 mov rax, rcx; vai dar errado pelo tamanho
 mov rax, [100] ;[n] = acesso direto a memória principal 
