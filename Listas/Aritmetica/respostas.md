@@ -162,14 +162,53 @@ A Representação sinal-magnitude utiliza o bit mais significativo da palavra co
 
 **8. Porque na representação de número em ponto flutuante em um computador não há a necessidade de se representar a base?**
 
+Para números decimais, usamos a notação científica. A base é implícita e não precisa ser armazenada, pois é a mesma para todos os números. Normalmente, considera -se que o ponto fracionário está à direita do bit mais à esquerda (ou mais significativo) do significando. Ou seja, existe um bit à esquerda do ponto fracionário.
+
 **9. O que é um Expoente Polarizado? Qual a utilidade de se utilizar a polarização para a representação de número em ponto flutuante?**
+
+A polarização significa que o valor armazenado será sempre positivo, isso é feito  para evitar um passo extra com a transformação do expoente em complemento de dois. Isso significa somar 127 (32bits) ou 1023 (64bits) no valor do expoente.
 
 **10. Porque não há a necessidade de se representar o primeiro bit da mantissa de um número em ponto flutuante no computador?**
 
+Um número diferente de zero, normalizado na base 2, a mantissa sempre começará por 1. Assim sendo, não há necessidade de se representar o (1, ) pois isso ficaria implícito, bastando representar os dígitos que aparecem depois da vírgula.
+
 **11. Porque número em ponto flutuante muitas vezes precisam ser normalizados?**
+
+Para simplificar as operações sobre números de ponto flutuante.
 
 **12. Explique a diferença entre Overflow e Underflow na representação de número em ponto flutuante. Exemplifique. Porque o Underflow é menos crítico?**
 
+O overflow ocorre quando uma operação aritmética resulta em uma magnitude maior do que pode ser expressa com um expoente de 128 (por exemplo, 2120 × 2100 = 2220). O underflow ocorre quando a magnitude fracionária é muito pequena (por exemplo, 2–120 × 2–100 = 2–220). O underflow é um problema menos sério porque o resultado geralmente pode ser satisfatoriamente aproximado para 0.
+
 **13. Qual é a relação entre os tamanhos dos campos reservados ao significando e ao expoente?**
 
+Existe uma relação estreita entre os tamanhos dos campos reservados ao mantissa e ao expoente.
+* Se o número de bits do mantissa aumentar:
+* Maior precisão.
+* Menor faixa de valores representáveis.
+* Se o número de bits do expoente aumentar:
+* Menor precisão.
+* Maior faixa de valores representáveis.
+
 **14. Cite e explique os passos para as operações de soma/subtração de pontos flutuantes em um computador.**
+
+Passos para adição e subtração:
+
+* Verificação de zero:
+	*	A adição e a subtração são idênticas, exceto por uma mudança de sinal.
+	* Se for uma operação de subtração, o processo começa alterando o sinal do subtraendo.
+	* Em seguida, se algum operando for 0, o outro é informado como o resultado.
+
+* Alinhamento das mantissas (ajustando expoentes):
+	* A próxima fase é manipular os números de modo que os dois expoentes sejam iguais.
+	* O alinhamento é obtido deslocando repetidamente a parte de magnitude do mantissa 1 dígito para a direita, e aumentando o expoente até que os dois expoentes sejam iguais.
+	* Se esse processo resultar em um valor 0 para o mantissa, então o outro número é informado como resultado
+
+* Adição ou subtração das mantissas:
+	* As duas mantissas são somadas ou subtraídas.
+
+* Normalização do resultado:
+	* A fase final normaliza o resultado.
+	* Consiste no deslocamento dos dígitos do significando para a esquerda até que o dígito mais significativo seja diferente de zero.
+	* Cada deslocamento causa um decremento do expoente e, portanto, poderá ocasionar um underflow do expoente.
+	* Finalmente, o resultado poderá ser arredondado e depois informado.
