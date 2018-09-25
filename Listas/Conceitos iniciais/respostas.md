@@ -102,10 +102,10 @@ No Modelo 30, somente 1 byte (8 bits) poderia ser apanhado da memória principal
 	* MIPS: (200x10^6)/2.22 = 90.09
 	* Tempo de execução: 40000000/(200x10^6) = 0.20 segundos.
 * Máquina B:
-	* TTotal de ciclos: (10000000 x 1) + (8000000 x 2) + (2000000 x 4) + (4000000 x 3) = 10000000 + 16000000 + 4000000 + 12000000 = 42000000
-	* CPI Efetivo: 42000000/24000000 = 1.75
-	* MIPS: (200x10^6)/1.75 = 114.28
-	* Tempo de execução: 42000000/(200x10^6) = 0.21 segundos.
+	* TTotal de ciclos: (10000000 x 1) + (8000000 x 2) + (2000000 x 4) + (4000000 x 3) = 10000000 + 16000000 + 8000000 + 12000000 = 42000000
+	* CPI Efetivo: 44000000/24000000 = 1.83
+	* MIPS: (200x10^6)/1.83 = 109.28
+	* Tempo de execução: 44000000/(200x10^6) = 0.22 segundos.
 
 **17. Um computador com um processador de 1.2GHz é mais lento do que um processador de 2.4GHz? Por que?**
 

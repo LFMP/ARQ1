@@ -32,7 +32,11 @@ A memória principal pode ser movida do barramento local para o barramento do si
 
 * **Qual é a capacidade de memória máxima endereçavel diretamente (em bytes)?**
 
+2^24 bites = 2097152 bytes = 2 GB.
+
 * **Qual o impacto sobre o desempenho do sistema se o barramento de endereço possui 32 bits e o barramento de dados possuir 16 bits.**
+
+
 
 * **Quantos bits são necessários para o contador do programa (PC) e o registrador de instrução (IR)?**
 
