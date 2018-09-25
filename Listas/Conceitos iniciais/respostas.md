@@ -104,13 +104,14 @@ O Assembly ou linguagem de montagem é uma linguagem de baixo nível para progra
 Foi um dos primeiros computadores a implementar os conceitos de programa armazenado, seguindo fielmente a arquitetura de Von Neumman. Foi uma prova de conceitos para sua proposta.
 
 **21. Cite e explique resumidamente o funcionamento de cada registrador do IAS.**
-	* PC = Armazena o endereço da próxima instrução;
-	* AC = Armazenamento temporário de dados;
-	* MQ = Armazenamento temporário de dados;
-	* MBR = Dados de leitura/escrita na memória;
-	* IBR = Armazena instrução direita (bits 20-39);
-	* IR = Armazena opcode de uma instrução;
-	* MAR = Armazena endereço de memória de uma instrução.
+
+* PC = Armazena o endereço da próxima instrução;
+* AC = Armazenamento temporário de dados;
+* MQ = Armazenamento temporário de dados;
+* MBR = Dados de leitura/escrita na memória;
+* IBR = Armazena instrução direita (bits 20-39);
+* IR = Armazena opcode de uma instrução;
+* MAR = Armazena endereço de memória de uma instrução.
 
 **22. Quais são os ciclos realizados pelo IAS para a execução de uma instrução?**
 
