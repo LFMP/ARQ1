@@ -1,0 +1,126 @@
+# Aritmética
+
+**1. Explique o funcionamento básico da ULA.**
+
+Os dados são apresentados à ULA em registradores, e os resultados de uma operação são armazenados nos registradores. Esses registradores são locais de armazenamento temporários dentro do processador, que são conectados por meio de sinais à ULA.  A ULA também pode definir flags como resultado de uma operação. Por exemplo, uma flag de overflow (estouro) é definida como 1 se o resultado de um cálculo ultrapassar o tamanho do registrador no qual ele deve ser armazenado. Os valores de flag também são armazenados nos registradores dentro do processador. A unidade de controle oferece sinais que controlam a operação da ULA e o movimento dos dados para dentro e fora da ULA.
+
+**2. Explique a diferença entre as representações de sinal-magnitude e complemento de dois para números binários**
+
+A Representação sinal-magnitude utiliza o bit mais significativo da palavra como um bit de sinal, se o bit mais significativo for 0, o número será positivo, se for 1, o número será negativo. Ao passo que na representação complemento de dois os números positivos são representados na sua forma binária direta, e um bit de sinal 0 é colocado à esquerda.
+
+**3. Converta os valores decimais abaixo para binário.**
+
+* **12345** = 11000000111001
+
+* **98765** = 11000000111001101
+
+* **48201** = 1011110001001001
+
+* **35212** = 1000100110001100
+
+**4. Em uma linguagem de programação, considere um tipo de dado inteiro que utiliza 2 bytes de memória para seu armazenamento. Quantos valores únicos diferentes são possíveis de colocar nesse espaço no decorrer da execução de um programa?**
+
+2 bytes = 16 bits.
+2^16 = 65536 valores únicos.
+
+**5. Faça as operações aritméticas abaixo utilizando aritmética de binários de 8 bits (Primeiramente você deve converter os números para binários em complemento de dois):**
+
+* **7 + 8**
+
+000000111 + 000001000 = 000001111
+
+* **10 + 90**
+
+000001010 + 001011010 = 000100100
+
+* **160 - 95**
+
+010100000 - 001011111 = 010100000 + 110100001 = 001000001
+
+* **-10 + 90**
+
+001011010 - 000001010 = 001011010 + 111110110 = 001010000
+
+* **-145 - 50**
+
+-010010001 - 000110010 = 101101111 + 111001110 = 100111101
+
+**6. Faça as operações aritméticas abaixo utilizando aritmética de binários de 4 bits sem sinal.**
+
+* **0011 * 1101**
+
+  | Carry |  A |   Q 	  |   M     |   Passos      |
+  |-------|----|--------|---------|---------------|
+  |0	    |0000|  0011  |   1101  |Valores Inicias|
+  |       |    |        |         | **Passo 1**   |
+  |0	    |1101|  0011  |   1101  | Adição        |
+  |0	    |0110|  1001  |   1101  |Deslocamento   |
+  |       |    |        |         | **Passo 2**   |
+  |1	    |0011|  1001  |   1101  |Adição         |
+  |0	    |1001|  1100  |   1101  |Deslocamento   |
+  |       |    |        |         | **Passo 3**   |
+  |0	    |0100|  1110  |   1101  |Deslocamento   |
+  |       |    |        |         | **Passo 4**   |
+  |0	    |0010|  0111  |   1101  |Deslocamento   |
+
+ 	R.: 0010 0111
+
+* **1111 * 1111**
+
+  | Carry |  A |   Q 	  |   M     |   Passos      |
+  |-------|----|--------|---------|---------------|
+  |0	    |0000|  1111  |   1111  |Valores Inicias|
+  |       |    |        |         | **Passo 1**   |
+  |0	    |1111|  1111  |   1111  | Adição        |
+  |0	    |0111|  1111  |   1111  |Deslocamento   |
+  |       |    |        |         | **Passo 2**   |
+  |1	    |0110|  1111  |   1111  |Adição         |
+  |0	    |1011|  0111  |   1111  |Deslocamento   |
+  |       |    |        |         | **Passo 3**   |
+  |1	    |1010|  0111  |   1111  |Adição         |
+  |0	    |1101|  0011  |   1111  |Deslocamento   |
+  |       |    |        |         | **Passo 4**   |
+  |1	    |1100|  0011  |   1111  |Adição         |
+  |0	    |1110|  0001  |   1111  |Deslocamento   |
+
+  R.: 1110 0001
+
+* **1100 * 1010**
+
+  | Carry |  A |   Q 	  |   M     |   Passos      |
+  |-------|----|--------|---------|---------------|
+  |0	    |0000|  1100  |   1010  |Valores Inicias|
+  |       |    |        |         | **Passo 1**   |
+  |0	    |0000|  0110  |   1010  |Deslocamento   |
+  |       |    |        |         | **Passo 2**   |
+  |0	    |0000|  0011  |   1010  |Deslocamento   |
+  |       |    |        |         | **Passo 3**   |
+  |0	    |1010|  0011  |   1010  |Adição         |
+  |0	    |0101|  0001  |   1010  |Deslocamento   |
+  |       |    |        |         | **Passo 4**   |
+  |0	    |1111|  0001  |   1010  |Adição         |
+  |0	    |0111|  1000  |   1010  |Deslocamento   |
+
+  R.: 0111 1000
+
+**7. Faça as operações aritméticas abaixo utilizando aritmética de binários de 4 bits com complemento de dois.**
+
+* **1100 * 1010**
+
+* **0101 * 1010**
+
+* **0011 * 1011**
+
+**8. Porque na representação de número em ponto flutuante em um computador não há a necessidade de se representar a base?**
+
+**9. O que é um Expoente Polarizado? Qual a utilidade de se utilizar a polarização para a representação de número em ponto flutuante?**
+
+**10. Porque não há a necessidade de se representar o primeiro bit da mantissa de um número em ponto flutuante no computador?**
+
+**11. Porque número em ponto flutuante muitas vezes precisam ser normalizados?**
+
+**12. Explique a diferença entre Overflow e Underflow na representação de número em ponto flutuante. Exemplifique. Porque o Underflow é menos crítico?**
+
+**13. Qual é a relação entre os tamanhos dos campos reservados ao significando e ao expoente?**
+
+**14. Cite e explique os passos para as operações de soma/subtração de pontos flutuantes em um computador.**
