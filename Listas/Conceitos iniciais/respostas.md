@@ -69,24 +69,71 @@ Durante o ciclo de busca (fetch cycle), o opcode da próxima instrução é carr
 
 No Modelo 30, somente 1 byte (8 bits) poderia ser apanhado da memória principal de cada vez, contra 8 bytes por vez no Modelo 75.
 
-**15. Um programa de benchmark é executado em um processador a 40 MHz. O programa executado consiste em 100000 execuções de instrução, com a seguinte mistura de instruções e quantidade de ciclos de clock (vide tabela no pdf). Determine o CPI efetivo, a taxa de MIPS e o tempo de execução desse programa.**
+**15. Um programa de benchmark é executado em um processador a 40 MHz. O programa executado consiste em 100.000 execuções de instrução, com a seguinte mistura de instruções e quantidade de ciclos de clock (vide tabela no pdf). Determine o CPI efetivo, a taxa de MIPS e o tempo de execução desse programa.**
 
-**16. Considere duas máquinas diferentes, com dois conjuntos de instruções diferentes, ambos tendo uma taxa de clock de 200MHz. As medições a seguir são registradas nas duas máquinas rodando determinado conjunto de programas de benchmark. Determine o CPI efetivo, a taxa MIPS e o tempo de exeução para cada máquina.**
+* Total de ciclos: (45000 × 1) + (32000 × 2) + (15000 × 4) + (8000 × 8) = 45000 + 64000 + 60000 + 64000 = 233000 ciclos.
+* CPI Efetivo : 233000/100000 = 2.33
+* MIPS: (40x10^6)/2.33 = 17.16
+* Tempo de Execução: 233000/(40x10^6) = 0.005825 segundos.
+
+**16. Considere duas máquinas diferentes, com dois conjuntos de instruções diferentes, ambos tendo uma taxa de clock de 200MHz. As medições a seguir são registradas nas duas máquinas rodando determinado conjunto de programas de benchmark (vide tabela no pdf). Determine o CPI efetivo, a taxa MIPS e o tempo de exeução para cada máquina.**
+
+* Máquina A:
+	* Total de ciclos: (8000000 x 1) + (4000000 x 3) + (2000000 x 4) + (4000000 x 3) = 8000000 + 12000000 + 8000000 + 12000000 = 40000000 ciclos.
+	* CPI Efetivo: 40000000/18000000 = 2.22
+	* MIPS: (200x10^6)/2.22 = 90.09
+	* Tempo de execução: 40000000/(200x10^6) = 0.20 segundos.
+* Máquina B:
+	* TTotal de ciclos: (10000000 x 1) + (8000000 x 2) + (2000000 x 4) + (4000000 x 3) = 10000000 + 16000000 + 4000000 + 12000000 = 42000000
+	* CPI Efetivo: 42000000/24000000 = 1.75
+	* MIPS: (200x10^6)/1.75 = 114.28
+	* Tempo de execução: 42000000/(200x10^6) = 0.21 segundos.
 
 **17. Um computador com um processador de 1.2GHz é mais lento do que um processador de 2.4GHz? Por que?**
+
+A execução de uma instrução envolve uma série de etapas discretas, como buscar a instrução na memória, decodificar as diversas partes da instrução, carregar e armazenar dados e realizar operações aritméticas e lógicas. Assim, grande parte das instruções na maioria dos processadores requer múltiplos ciclos de clock para completar. Algumas instruções podem usar apenas alguns ciclos, enquanto outras exigem dezenas. Além disso, quando é usado o pipeline, múltiplas instruções estão sendo executadas simultaneamente. Assim, uma comparação direta de velocidades de clock em diferentes processadores não diz a história toda sobre o desempenho.
 
 **18. O ENIAC era uma máquina decimal, onde um registrador era representado por um anel de dez válvulas. A qualquer momento, somente uma válvula é ativa por vez, representando um dos dez dígitos. Como essa representação poderia ser otimizado?**
 
 **19. Qual a relação da linguagem Assembly com a Arquitetura e Organização de Computadores.**
 
+O Assembly ou linguagem de montagem é uma linguagem de baixo nível para programação de computadores atrelada à arquitetura de uma certa CPU e cada família de processador tem seu próprio Assembly. As suas características são inerentes ao hardware, logo o programador precisa conhecer os detalhes da estrutura da máquina.
+
 **20. O que é o computador IAS? Qual a sua importância para a computação?**
 
+Foi um dos primeiros computadores a implementar os conceitos de programa armazenado, seguindo fielmente a arquitetura de Von Neumman. Foi uma prova de conceitos para sua proposta.
+
 **21. Cite e explique resumidamente o funcionamento de cada registrador do IAS.**
+	* PC = Armazena o endereço da próxima instrução;
+	* AC = Armazenamento temporário de dados;
+	* MQ = Armazenamento temporário de dados;
+	* MBR = Dados de leitura/escrita na memória;
+	* IBR = Armazena instrução direita (bits 20-39);
+	* IR = Armazena opcode de uma instrução;
+	* MAR = Armazena endereço de memória de uma instrução.
 
 **22. Quais são os ciclos realizados pelo IAS para a execução de uma instrução?**
 
+A execução de uma instrução é realizada em dois ciclos:
+
+* Ciclo de busca: Consiste em buscar a instrução da memória (ou do registrador IBR) e armazenar no IR. 
+* Ciclo de execução: Consiste em interpretar a instrução armazenada no registrador IR e realizar as operações necessárias para execução da mesma.
+
 **23. Explique detalhadamente os passos realizados no ciclo de busca de uma instrução no IAS.**
+
+* A UC move o endereço em PC para MAR;
+* A UC envia um sinal de controle para a memória fazer uma operação de leitura;
+* A memória lê a palavra contida no endereço que está em MAR e a transfere para o registrador MBR;
+* A UC copia a segunda metade da palavra (bits 20 a 39) do registrador MBR e salva no registrador IBR. Estes bits correspondem à instrução à direita.
+* A UC copia os 8 bits à esquerda do registrador MBR para o registrador IR. Estes bits correspondem ao campo de operação (opcode) da instrução à esquerda.
+* A UC copia os 12 bits subsequentes ao campo de operação (bits 8 a 19) e os transfere para o registrador MAR. Estes bits correspondem ao campo endereço na instrução. Devem estar no registrador MAR caso a instrução precise acessar a memória durante a execução.
+* A UC incrementa o valor de PC, indicando que o próximo par de instruções a ser lido da memória deve ser lido do endereço PC + 1.
 
 **24. Explique detalhadamente os passos realizados no ciclo de execução de uma instrução de JUMP+ M(X) no IAS.**
 
+A instrução JUMP+ M(X) salta para a instrução no endereço X da memória somente se o valor armazenado no registrador AC for maior ou igual a 0, ou seja, se AC for não negativo. Caso contrário (o valor em AC for negativo), o fluxo de execução segue normalmente, executando-se a instrução subsequente a instrucão
+JUMP+.
+
 **25. Explique detalhadamente os passos realizados no ciclo de execução de uma instrução de STOR M(X) no IAS.**
+
+A instrução STOR M(X,8:19) modifica o campo endereço da instrução à esquerda da palavra no endereço X da memória, enquanto que a instrução STOR M(X,28:39) modifica o campo endereço da instrução à direita da palavra no endereço X da memória. Ambas transferem os 12 bits à direita do registrador AC (bits 28 a 39) para o campo endereço da instrução alvo.
