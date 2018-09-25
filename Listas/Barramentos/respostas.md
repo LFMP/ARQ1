@@ -36,14 +36,25 @@ A memória principal pode ser movida do barramento local para o barramento do si
 
 * **Qual o impacto sobre o desempenho do sistema se o barramento de endereço possui 32 bits e o barramento de dados possuir 16 bits.**
 
-
+A CPU precisa esperar dois ciclos de barramentos para os dados chegarem.
 
 * **Quantos bits são necessários para o contador do programa (PC) e o registrador de instrução (IR)?**
 
-**7. Considere um microprocessador de 32 bits, com um barramento de dados de 16 bits, controlado por um clock de entrada de 8 MHz. Suponha que esse microprocessador tenha um ciclo de barramento cuja duração mínima seja igual a 4 ciclos de clock. Qual é a taxa de transferência de dados máxima pelo barramento que esse microprocessador pode sustentar, em bytes/s?** 
+IR = 8 bits
+PC = 32 bits
+
+**7. Considere um microprocessador de 32 bits, com um barramento de dados de 16 bits, controlado por um clock de entrada de 8 MHz. Suponha que esse microprocessador tenha um ciclo de barramento cuja duração mínima seja igual a 4 ciclos de clock. Qual é a taxa de transferência de dados máxima pelo barramento que esse microprocessador pode sustentar, em bytes/s?**
+
+8 MHz/4 = 2 MHz
+16 bits = 2 bytes
+2 MHz x 2 bytes = 4 MB/s
 
 **8. Considere dois microprocessadores tendo barramentos de dados externos de 8 e 16 bits, respectivamente. Os dois processadores são idênticos em todos os outros aspectos.**
 
 * **Suponha que todas as instruções e operandos tenham 2 bytes de extensão. Qual o fator de diferença entre as taxas máximas de transferência?**
 
+O segundo suporta o dobro da taxa de transferência do primeiro.
+
 * **Repita considerando que metade dos operandos e instruções tenham 1 byte de extensão.**
+
+No primeiro microprocessador o barramento suporta a transferência da palavra completa, enquanto que no segundo microprocessador são necessárias 2 viagens para ler a palavra.
