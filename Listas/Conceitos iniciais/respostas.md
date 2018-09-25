@@ -130,6 +130,11 @@ Foi um dos primeiros computadores a implementar os conceitos de programa armazen
 * MQ = Armazenamento temporário de dados;
 * MBR = Dados de leitura/escrita na memória;
 * IBR = Armazena instrução direita (bits 20-39);
+TradutorDesativar tradução instantânea
+InglêsPortuguêsEspanholDetectar idioma
+PortuguêsInglêsEspanhol
+￼Traduzir
+
 * IR = Armazena opcode de uma instrução;
 * MAR = Armazena endereço de memória de uma instrução.
 
