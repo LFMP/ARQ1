@@ -128,7 +128,7 @@ A Representação sinal-magnitude utiliza o bit mais significativo da palavra co
   |-----|----|-------|-------|-----------------------|
   |0000 |0101|   0   |  1010 |Valores Inicias        |
   |     |    |       |       |**Passo 1**            |
-  |0110 |0101|   0   |  1010 |Adição (a = a + m)     |
+  |0110 |0101|   0   |  1010 |Subtração (a = a + m)  |
   |0011 |0010|   1   |  1010 |Deslocamento a direita |
   |     |    |       |       |**Passo 2**            |
   |1101 |0010|   1   |  1010 |Soma (a = a + m)       |
