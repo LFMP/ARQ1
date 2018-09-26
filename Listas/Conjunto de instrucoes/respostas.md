@@ -16,7 +16,7 @@ Um conjunto completo dos operadores das instruções de um computador, junto com
 
 **3. Desenhe o diagrama de estado do Ciclo de Instrução. Porque existem as fases de cálculo de endereço do operando e cálculo de endereço do resultado?**
 
-![Diagrama](/diagrama_ciclo_instrucao.png)
+![Diagrama](../diagrama_ciclo_instrucao.png)
 
 * É necessário o cálculo de endereço do operando se a operação envolvida referência a um operando na memória ou dispositivo via E/S.
 * Cálculo de endereço de resultado é necessário para armazenar o resultado ou enviar a um dispositivo de E/S.
