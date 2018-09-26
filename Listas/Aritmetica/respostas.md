@@ -140,7 +140,7 @@ A Representação sinal-magnitude utiliza o bit mais significativo da palavra co
   |1100 |0100|   1   |  1010 |Soma (a = a + m)       |
   |1110 |0010|   0   |  1010 |Deslocamento           |
 
-  R.: 1100 1010
+  R.: 1110 0010
 
 * **0011 * 1011**
 
