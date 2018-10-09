@@ -764,6 +764,27 @@ O endereçamento se refere as diferentes maneiras que o programador pode se refe
 ### Registradores de Controle de Estado
 
 * PC
+	* Programer Counter: ele contém o endereço da próxima instrução. É incrementado no final do ciclo de busca, é alterado sempre quando se realiza um salto.
 * MAR
+	* Memory Andress Register: o operando deve estar contido no MAR para ocorrer acesso a memória. 
 * MBR
+	* Memory Buffer Register: os dados são colocados no MBR para que sejam escritos em memória.
 * IR
+	* Instructions Register: guarda o opcode da operação atual.
+
+# Função do Processador
+
+* Executar instruções.
+```
+-> Busca de Instrução  <-----
+-> Decodificação            |
+-> Busca de Operandos       |
+-> Execução                 | Reinicio
+-> Escrita dos Resultados   |
+-> Interrupção              |
+-> --------------------------
+```
+
+# PreFetch
+* No momento de execução o processador coloca uma instrução para executar e busca a próxima.
+* Antecessor do Pipeline.
