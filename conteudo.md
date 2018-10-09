@@ -728,22 +728,42 @@ O endereçamento se refere as diferentes maneiras que o programador pode se refe
 ### Registradores
 
 * Armazenamento temporário de informações.
-* De uso geral ou específico
+* De uso geral ou específico (FPU, MMX,SSE).
 * A tendecia é usar registradores específicos.
-* A quantidade e função variam bastante entre diferentes projetos
+* A quantidade e função variam bastante entre diferentes projetos.
 * Quantidade de registradores:
-	* Em teoria, quanto mais melhor;
+	* Em teoria, quanto mais melhor.
 	* Na prática, um número muito grande não traz um ganho de performance considerável.
 * Tamanho:
-	* Grande para conter o maior endereço do sistema e uma palavra de memória
-	* Desejável combinar dois em um só
+	* Grande para conter o maior endereço do sistema e uma palavra de memória.
+	* Desejável combinar dois em um só.
+	```c
+	int a     // 32 bits
+	long b    // 64 bits
+	float c   // 32 bits
+	double d  // 64 bits
+	```
 * Organização:
-  * Visíveis ao usuário
-	* Controle de estado
-		* Uso do SO para controlar o processo atual, o programador não consegue acessar
-* Registradores visíveis ao usuário
-	* Uso geral (RAX, RBX, RCX, RDX, RSI*, RDI*)
-	* Dados
-	* Endereços (RBP, RSP)
-	* Códigos condicionais (Flags de estado)
+  * Visíveis ao usuário.
+	* Controle de estado.
+		* Uso do SO para controlar o processo atual, o programador não consegue acessar.
+* Registradores visíveis ao usuário:
+	* Uso geral (RAX, RBX, RCX, RDX, RSI*, RDI*).
+	* Dados.
+	* Endereços (RBP, RSP).
+  * Códigos condicionais (Flags de estado).
 
+## Processador 8086
+* Uso geral : AX, BX, CX, DX
+* Endereços : BP, SP, SI, DI
+* Segmentos : CS (code), DS (data), SC(stack), ES(extra)
+	* Controle de estado.
+	* Representam a separação do espaço de memória.
+* Estado: FLAGS.
+
+### Registradores de Controle de Estado
+
+* PC
+* MAR
+* MBR
+* IR
