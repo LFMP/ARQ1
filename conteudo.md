@@ -1,13 +1,13 @@
 # REGISTRADORES
 São áreas especiais dentro do processador pra armazenar informações.
 * **De uso geral:**
-    * **EAX**, usado como acumulador;
-	* **EBX**, usado para base;
-	* **ECX**, usado como contador;
-	* **EDX**, usado para dados.
+	* **RAX**, usado como acumulador;
+	* **RBX**, usado para base;
+	* **RCX**, usado como contador;
+	* **RDX**, usado para dados.
 * **Especiais:**
-	* **ESP** e **EBP**, usados em operações na pilha;
-	* **ESI** e **EDI**, usados em operações com agregados de dados.
+	* **RSP** e **RBP**, usados em operações na pilha;
+	* **RSI**(Reg. Source Index) e **RDI**(Reg. Destination Index), usados em operações com agregados de dados.
 
 # PILHA
 * Área na memória pra armazenar dados temporários.
@@ -702,3 +702,48 @@ O endereçamento se refere as diferentes maneiras que o programador pode se refe
 * O conjunto de instruções pode possuir instruções com tamanhos diferentes ou com tamanho de campos diferentes.
 * Suporte a um conjunto complexo de instruções(CISC).
 * Suporte a um conjunto reduzido de instruções(RISC).
+
+# Estrutura do Processador
+
+## Interna
+
+```
+  ---------------------         -----       ---------------------
+  |       ULA         |         |B I|       |   Registradores   |
+  |-------------------|         |A N|       |                   |
+|>| Flags de Estado   |<------->|R T|<----->|                   |
+| |-------------------|         |R E|       |RAX,RBX            |
+|>|Deslocador         |<------->|A R|<----->|                   |
+| |-------------------|         |M N|       |RSP,RBP            |
+|>|Complementador     |<------->|E O|<----->|                   |
+| |-------------------|         |N  |       |PC, MAR, MBR, IR   |
+|>|Aritmética e Lógica|<------->|T  |       |                   |
+  |-------------------|         |O  |       |                   |
+          ^                     -----       ---------------------
+          |                       ^                   |
+          |                       |                   |
+          ---------------------------------------------
+```
+
+### Registradores
+
+* Armazenamento temporário de informações.
+* De uso geral ou específico
+* A tendecia é usar registradores específicos.
+* A quantidade e função variam bastante entre diferentes projetos
+* Quantidade de registradores:
+	* Em teoria, quanto mais melhor;
+	* Na prática, um número muito grande não traz um ganho de performance considerável.
+* Tamanho:
+	* Grande para conter o maior endereço do sistema e uma palavra de memória
+	* Desejável combinar dois em um só
+* Organização:
+  * Visíveis ao usuário
+	* Controle de estado
+		* Uso do SO para controlar o processo atual, o programador não consegue acessar
+* Registradores visíveis ao usuário
+	* Uso geral (RAX, RBX, RCX, RDX, RSI*, RDI*)
+	* Dados
+	* Endereços (RBP, RSP)
+	* Códigos condicionais (Flags de estado)
+
