@@ -788,3 +788,86 @@ O endereçamento se refere as diferentes maneiras que o programador pode se refe
 # PreFetch
 * No momento de execução o processador coloca uma instrução para executar e busca a próxima.
 * Antecessor do Pipeline.
+
+# Pipeline
+
+* Sobreposição temporal de fases de execução das instruções.
+* Semelhante a uma linha de montagem industrial.
+* Essa técnica aumenta o número de instruções executadas no geral, porém o tempo para uma instrução individual não é afetado.
+* Etapas:
+	* Busca de instruções(FI);
+	* Decodificação(DI);
+	* Cálculo de endereço de operandos(CO);
+	* Busca de operandos(FO);
+	* Execução(EI);
+	* Escrita dos resultados(WO).
+* O número de etapas podem variar de acordo com o assembly.
+	* Em teoria quanto mais etapas melhor o resultado.
+
+
+|  Instrução  |  1 |  2 |  3 |  4 |  5 |  6 |  7 |  8 |
+|-------------|----|----|----|----|----|----|----|----|
+|      1      | FI | DI | CO | FO | EI | WO |    |    |
+|      2      |    | FI | DI | CO | FO | EI | WO |    |
+|      3      |    |    | FI | DI | CO | FO | EI | WO |
+|      4      |    |    |    | FI | DI | CO | FO | EI |
+|      5      |    |    |    |    | FI | DI | CO | FO |
+|      6      |    |    |    |    |    | FI | DI | CO |
+|      7      |    |    |    |    |    |    | FI | DI |
+|      8      |    |    |    |    |    |    |    | FI |
+
+* Ao fazer um jump as instruções seguintes são ignoradas, esse processo de limpar o pipeline é chamado de Flush e o pipeline precisa ser preeenchido com as novas instruções, com um pipeline de muitas etapas o tempo para preencher o pipeline e soltar a próxima instrução é muito grande.
+
+## Hazerd de recursos
+
+* Duas ou mais instruções precisam do mesmo recurso.
+* Exemplo: vamos supor que a memória principal possua só uma única porta de comunicação (uma única solicitação por ciclo de clock). O processador substitui a instrução por um Stall(bolha), até que a instrução possa ser executada, se o recurso não for aumentado o pipeline ficara com muitos Stall e o uso do pipeline pode não ser muito vantajoso.
+
+## Hazerd de dados
+
+* Leitura após escrita (RAW)
+	```assembly
+	ADD RAX, RCX
+	SUB RBX, RAX
+	```
+	O Pipeline faz Stall até o valor da primeiro instrução ser escrita.
+
+* Escrita após leitura (WAR)
+	```assembly
+	ADD RAX, RBX
+	SUB RBX, RCX
+	```
+	Só existe em computadores superescalares.
+
+* Escrita após escrita (WAW)
+	```assembly
+	ADD R3, R1, R2
+	SUB R3, R4, R5
+	```
+
+* Técnicas para solucionar Hazard de Dados
+	* Reordenamento de instruções.
+	* Forwanding.
+		* Execução manda o resultado para a etapa de busca de operandos.
+	* Stall
+
+## Hazard de controle
+
+* Decisão errada sobre um salto condicional.
+	* Múltiplos pipelines podem resolver, porém entramos nos problemos de escrita após leitura por exemplo.
+	* Busca antecipada de alvo (intercala os dois caminhos)
+	* Buffer de repetição
+	* Previsão de desvio
+		* Estático
+		* Dinâmico
+
+* Previsão de desvio com 2 bits
+	* Esquerda = penúltimo salto, direita = último salto
+
+	(00 Não salta) -> (01 Não Salta)
+
+	(01 Não salta) -> (10 Salta) && (11 Salta)
+
+	(10 Salta) -> (00 Não salta) && (01 Não Salta)
+
+	(11 Salta) -> (10 Salta)
