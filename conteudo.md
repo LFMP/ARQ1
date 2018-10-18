@@ -871,3 +871,90 @@ O endereçamento se refere as diferentes maneiras que o programador pode se refe
 	(10 Salta) -> (00 Não salta) && (01 Não Salta)
 
 	(11 Salta) -> (10 Salta)
+
+## Operação da Unidade de Controle
+
+* O objetivo da UC é sincronizar e controlar todos os aspectos internos da CPU e a comunicação com os componentes externos.
+
+### Funções
+
+* Sequeciamento e execução de micro operações
+* Geração dos sinais de controle para essa execução.
+
+## Micro-Operações
+
+* A execução de uma instrução envolve uma série de etapas mais elementares (chamado de ciclo).
+* Por exemplo, uma sequência é ciclo de busca, indireto, execução e interrupção.
+* Cada ciclo é realizado por uma série de micro-operações.
+* Uma micro-operação é uma operação atômica.
+* Tipos de micro-operações:
+	* Transferência de dados entre registradores ou com interface externa.
+	* Uma operação aritmética ou lógica.
+
+### Ciclo de busca
+
+* Registradores envolvídos: MAR, MBR, IR e PC.
+```
+t1: MAR = PC
+t2: Sinal de leitura para memória
+t3: MBR = (MEM)
+t4: IR = MBR
+t5: PC++
+```
+### Ciclo indireto
+```
+t1: MAR = IR(endereço)
+t2: Sinal de leitura para memória
+t3: MBR = (MEM)
+t4: IR(endereço) = MBR
+```
+* Ao final, o R vai estar como se o endereçamento tivesse sido usado.
+
+### Ciclo de execução
+
+* Depende da instrução.
+* Exemplos:
+```assembly
+ADD R1, X ; R1 um registrador e X uma posição da memória
+```
+```
+t1: MAR = IR(X)
+t2: Sinal de leitura para memória
+t3: MBR = (MEM)
+t4: R1 = R1 + MBR
+```
+```assembly
+ISZ X  ; x-> posição de memória
+```
+* Incrementa X em 1 e pula a próxima instrução se X for zero.
+```
+t1: MAR = PC
+t2: Sinal de leitura para memória
+t3: MBR = (MEM)
+t4: MBR = MBR + 1
+t5: Sinal de escrita para memória (X = MBR)
+t6: Verifica flag de zero, se for -> PC++
+```
+
+```assembly
+CALL PROC
+```
+-> Chama uma label e retorna para próxima instrução ao final.
+```
+t1: MBR = PC
+    RSP = RSP-8 (considerando 64 bits)
+t2: MAR = RSP
+t3: Sinal de escrita para memória (Salva pc no topo da pilha)
+    PC = PROC
+```
+
+### Ciclo de interrupção
+
+* Ao final, a UC verifica se existe interrupção habilitada.
+```
+t1: MBR = PC
+    RSP = RSP-8
+t2: MAR = RSP
+t3: Sinal de escrita para a memória
+    PC = endereço da rotina de interrupção
+```
