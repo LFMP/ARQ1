@@ -872,7 +872,9 @@ O endereçamento se refere as diferentes maneiras que o programador pode se refe
 
 	(11 Salta) -> (10 Salta)
 
-## Operação da Unidade de Controle
+# Unidade de Controle
+
+## Operações da Unidade de Controle
 
 * O objetivo da UC é sincronizar e controlar todos os aspectos internos da CPU e a comunicação com os componentes externos.
 
@@ -958,3 +960,56 @@ t2: MAR = RSP
 t3: Sinal de escrita para a memória
     PC = endereço da rotina de interrupção
 ```
+
+## Implementação
+
+* Em hardware: complexa e inflexível, depende do número de instruções.
+* Em software.
+* Possui como entradas:
+	* IR.
+	* Flags de estado.
+	* Clock.
+	* Sinais de controle do barramento de controle.
+* Possui como saídas:
+	* Sinais de controle interno da CPU.
+	* Sinais de controle externo.
+
+# Unidade de controle microprogramada
+
+* A lógica da Unidade de Controle é especificada por um **microprograma** contendo **microinstruções**.
+
+## Microinstrução
+
+* Para cada micro-operação a UC gera os sinais de controle correspondentes.
+* A microinstrução agrupa os sinais de controle de saída.
+
+## Elementos
+
+* Um bit para cada sinal de controle externo.
+* Um bit para cada sinal de controle interno.
+* Se houver condição para a micro-operação (não confundir com a instrução JUMP):
+	* Condição para salto.
+	* Endereço para salto.
+
+## Organização
+
+* O conjunto das microinstruções são armazenadas em uma memória de controle.
+* A memória define a sequência de micro-operações executadas em cada ciclo e o sequenciamento dessas micro-operações.
+```
+Lógica de sequenciamento -----> Registrador de endereço de controle
+Lógica de sequenciamento -----(leitura)-> Memória de Controle
+Registrador de endereço de controle -----> Memória de Controle
+Memória de Controle -----> Lógica de sequenciamento
+Memória de Controle -----> Registrador de Buffer de Controle
+Registrador de Buffer de Controle -----> Sinais de controle
+------------------------------------------------------------------------
+Memória de controle composta de Ciclos de busca, Ciclo indireto,
+Ciclo de execução, Ciclo de interrupção.
+------------------------------------------------------------------------
+```
+## Vantagens
+* Simplicidade
+* Flexibilidade
+
+## Desvantagens
+* Mais lento que implementado em hardware.
