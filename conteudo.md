@@ -1013,3 +1013,75 @@ Ciclo de execução, Ciclo de interrupção.
 
 ## Desvantagens
 * Mais lento que implementado em hardware.
+
+# Memória Cache
+
+* A memória do computador é organizada em uma hierarquia.
+* O desafio é fazer com que as informações mais acessadas estejam na memória mais rápida.
+* Hierarquia de memória:
+	* Chip do processador:
+		* Registradores
+		* Cache
+		* Memória principal
+	* SSD/HD
+	* CD/DVD/BLURAY (Óptico)
+	* Fitas magnéticas
+* A medida que descemos na hierarquia de memória:
+	* O custo diminui.
+	* A capacidade aumenta.
+	* Aumenta o tempo de acesso.
+* Princípios da cache:
+	* Memória pequena e rápida entre a memória principal e o processador.
+	* Cada linha da cache armazena múltiplas linhas da memória principal. (Princípio da localidade)
+
+```
+|CPU| -----(Palavra)----- |CACHE| ----- (BLOCO) ----- |MEMÓRIA PRINCIPAL|
+Bloco = várias linhas da memória principal.
+```
+## Operação
+
+* CPU solicita o acesso a um local de memória.
+* Verifica se os dados estão na cache.
+* Se sim (Cache Hit), pega da cache.
+* Se não (Cache Miss), lê bloco da memória principal, coloca na cache e entrega para o processador.
+
+## Organização
+
+```
+-------                                                       ----------
+|     |                                                       |        |
+|     |--------------------(ENDEREÇO)------------------------>|        |
+|     |                         ^                             |B    D  |
+|     |                         |                             |A    E  |
+|     |                         V                             |R       |
+| CPU |                  |-----------|                        |R    S  |
+|     |----(CONTROLE)--->|   CACHE   |------(CONTROLE)------->|A    I  |
+|     |                  |-----------|                        |M    S  |
+|     |                         ^                             |E    T  |
+|     |                         |                             |N    E  |
+|     |                         v                             |T    M  |
+|     |----------------------(DADOS)------------------------->|O    A  |
+|     |                                                       |        |
+|     |                                                       |        |
+-------                                                       ----------
+
+```
+
+## Endereçamento
+
+* A Cache pode armazenar os dados usando memória virtual ou real.
+* Endereços reais:
+	```
+	|CPU|-|MMU|-|CACHE|-|PRINCIPAL|
+	```
+* Endereços virtuais:
+	```
+	|CPU|-|CACHE|-|MMU|-|PRINCIPAL|
+	```
+* MMU faz a tradução entre virtual e real.
+
+## Tamanho
+
+* Em teoria, quanto maior melhor.
+* Mais informaçõeslevam mais tempo para serem trazidas da memória principal.
+* O princípio da localidade acaba se perdendo.
