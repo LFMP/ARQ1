@@ -1017,6 +1017,7 @@ Ciclo de execução, Ciclo de interrupção.
 # Memória Cache
 
 * A memória do computador é organizada em uma hierarquia.
+* O objetivo da cache é reduzir a necessidade de buscar as informações na memória principal.
 * O desafio é fazer com que as informações mais acessadas estejam na memória mais rápida.
 * Hierarquia de memória:
 	* Chip do processador:
@@ -1085,3 +1086,121 @@ Bloco = várias linhas da memória principal.
 * Em teoria, quanto maior melhor.
 * Mais informaçõeslevam mais tempo para serem trazidas da memória principal.
 * O princípio da localidade acaba se perdendo.
+
+## Número de caches
+
+```
+|CPU|---| L1 |---| L2 |---| L3 |---|Memória Principal|
+L1 = 64 KB
+L2 = 256 KB
+L3 = 8~12 MB
+```
+* O objetivo é balancear desempenho e tamanho.
+
+## Algoritmo de substituição:
+
+* A cache é menor que a memória principal, logo quando ela fica cheia as linhas precisam ser substituidas.
+* Estratégias:
+	* FIFO
+	* LRU (Least Recently Used): Menos Recentemente Usado
+	* LFU (Least Frequently Used): Menos Frequentemente Usado
+	* Aleatória
+
+## Política de escrita
+
+* As alterações são feitas na cache.
+* Núcleos diferentes possum caches diferentes.
+* E/S pode alterar a memória principal.
+* Qual o momento ideal de passar as alterações na memória principal? = Política de escrita.
+* Estratégias:
+	* Write-Back: Atualização só na hora da substituição.
+		* É preciso um circuito auxiliar para manter o sincronismo entre caches de diferentes núcleos.
+		* E/S acessa a memóra por meio da cache.
+		* Maior desempenho.
+	* Write-Through: Atualiza a mamória a cada escrita.
+		* Menos problemas porém mais lento.
+	* Write-Once: Combinação de Write-Throug com Write-Back.]
+		* A primeira alteração é propagada para a memória principal e as demais ficam só na cache.
+
+## Tamanho da linha
+
+* Quantidade de palavras da memória em bloco da cache.
+* Princípio da localidade.
+* Normalmente ntre 8 e 64 palavras por bloco.
+
+## Cache Unificada vs Separada
+
+* Unificada: Dados e instruções na mesma cache.
+	* Simplicidade.
+* Separada: Dados e instruções em caches separadas.
+	* Facilita pro Pipeline.
+	* Evitar hazard de recursos entre as etapas de busca de instrução e operandos.
+
+## Mapeamento
+
+* Responsável por determinar onde cada informação da memória principal vai ser na cache.
+* O próprio endereço da memória é usado para o mapeamento.
+* Como aumentar o cache hit?
+
+* Memória
+
+	| Endereço | Valor |
+	|----------|-------|
+	|   0000   |   A   |
+	|   0001   |   B   |
+	|   0010   |   C   |
+	|   0011   |   D   |
+	|   0100   |   E   |
+	|   0101   |   F   |
+	|   0110   |   G   |
+	|   0111   |   H   |
+	|   1000   |   I   |
+	|   1001   |   J   |
+	|   1010   |   K   |
+	|   1011   |   L   |
+	|   1100   |   M   |
+	|   1101   |   N   |
+	|   1110   |   O   |
+	|   1111   |   P   |
+
+* Cache
+
+	| Linha | TAG | Palavra | Palavra |
+	|-------|-----|---------|---------|
+	|  00   |     |         |         |
+	|  01   |     |         |         |
+	|  10   |     |         |         |
+	|  11   |     |         |         |
+
+### Mapeamento direto:
+
+* Cada bloco da memória principal é mapeado para a mesma linha da cache.
+* Então cada endereço é dividido em:
+	* TAG: Identifica unicamente cada bloco.
+	* Linha: Identifica cada linha da cache.
+	* Palavra: Identifica uma palavra dentro do bloco
+* Exempĺo:
+	* Memória com 16 bits(e bits).
+	* Cache com 4 linhas.
+	* Bloco com 2 palavras.
+	* Endereços:
+		* TAG: 1 bit.
+		* Linha: 2 bits.
+		* Palavra: 1 bit.
+	*CPU requisita: 0100, 1000, 0011 e 0111
+
+	| Linha | TAG | Palavra | Palavra |
+	|-------|-----|---------|---------|
+	|  00   |  1  |    I    |    J    |
+	|  01   |  0  |    C    |    D    |
+	|  10   |  0  |    E    |    F    |
+	|  11   |  0  |    G    |    H    |
+
+	* Em seguida requisita 1101 e 1110
+
+	| Linha | TAG | Palavra | Palavra |
+	|-------|-----|---------|---------|
+	|  00   |  1  |    I    |    J    |
+	|  01   |  0  |    C    |    D    |
+	|  10   |  1  |    M    |    N    |
+	|  11   |  1  |    O    |    P    |
