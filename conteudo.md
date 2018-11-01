@@ -1175,6 +1175,9 @@ L3 = 8~12 MB
 ### Mapeamento direto:
 
 * Cada bloco da memória principal é mapeado para a mesma linha da cache.
+* Vantagem: simplicidade.
+* Desvantagem: Thrashing
+	* Ex.: CPU Requisita: 0101,1100,0100,1101,...
 * Então cada endereço é dividido em:
 	* TAG: Identifica unicamente cada bloco.
 	* Linha: Identifica cada linha da cache.
@@ -1204,3 +1207,146 @@ L3 = 8~12 MB
 	|  01   |  0  |    C    |    D    |
 	|  10   |  1  |    M    |    N    |
 	|  11   |  1  |    O    |    P    |
+
+* Exemplo de Thrashing:
+	* CPU Requisita: 0101
+		
+	| Linha | TAG | Palavra | Palavra |
+	|-------|-----|---------|---------|
+	|  00   |  1  |    I    |    J    |
+	|  01   |  0  |    C    |    D    |
+	|  10   |  0  |    E    |    F    |
+	|  11   |  1  |    O    |    P    |
+
+	* CPU Requisita: 1100
+
+	| Linha | TAG | Palavra | Palavra |
+	|-------|-----|---------|---------|
+	|  00   |  1  |    I    |    J    |
+	|  01   |  0  |    C    |    D    |
+	|  10   |  1  |    M    |    N    |
+	|  11   |  1  |    O    |    P    |
+
+	* CPU Requisita: 0100
+
+	| Linha | TAG | Palavra | Palavra |
+	|-------|-----|---------|---------|
+	|  00   |  1  |    I    |    J    |
+	|  01   |  0  |    C    |    D    |
+	|  10   |  0  |    E    |    F    |
+	|  11   |  1  |    O    |    P    |
+
+	* CPU Requisita: 1101
+
+	| Linha | TAG | Palavra | Palavra |
+	|-------|-----|---------|---------|
+	|  00   |  1  |    I    |    J    |
+	|  01   |  0  |    C    |    D    |
+	|  10   |  1  |    M    |    N    |
+	|  11   |  1  |    O    |    P    |
+
+### Mapeamento associativo
+
+* Um bloco da memória principal pode ser colocado em qualquer linha da cache
+* Resolve o Thrashing, porém a pesquisa é complexa.
+* Endereço dividido em:
+	* TAG: 3 bits
+	* Palavra: 1 bit
+* Cache
+	| TAG | Palavra | Palavra |
+	|-----|---------|---------|
+	| 000 |         |         |
+	| 000 |         |         |
+	| 000 |         |         |
+	| 000 |         |         |
+
+* Exemplo:
+	* CPU Requisita: 0100, 1000, 0011, 0111
+
+	| TAG | Palavra | Palavra |
+	|-----|---------|---------|
+	| 010 |    E    |    F    |
+	| 100 |    I    |    J    |
+	| 001 |    C    |    D    |
+	| 011 |    G    |    H    |
+
+	* Em seguida, requisita 1101 e 1110.
+
+	| TAG | Palavra | Palavra |
+	|-----|---------|---------|
+	| 110 |    M    |    N    |
+	| 111 |    O    |    P    |
+	| 001 |    C    |    D    |
+	| 011 |    G    |    H    |	
+
+	* CPU requisita: 0101
+
+	| TAG | Palavra | Palavra |
+	|-----|---------|---------|
+	| 110 |    M    |    N    |
+	| 111 |    O    |    P    |
+	| 010 |    E    |    F    |
+	| 011 |    G    |    H    |
+
+	* CPU requisita: 1100
+
+	| TAG | Palavra | Palavra |
+	|-----|---------|---------|
+	| 110 |    M    |    N    |
+	| 111 |    O    |    P    |
+	| 010 |    E    |    F    |
+	| 011 |    G    |    H    |
+
+	* CPU requisita: 0100
+
+	| TAG | Palavra | Palavra |
+	|-----|---------|---------|
+	| 110 |    M    |    N    |
+	| 111 |    O    |    P    |
+	| 010 |    E    |    F    |
+	| 011 |    G    |    H    |
+
+	* CPU requisita: 1101
+
+	| TAG | Palavra | Palavra |
+	|-----|---------|---------|
+	| 110 |    M    |    N    |
+	| 111 |    O    |    P    |
+	| 010 |    E    |    F    |
+	| 011 |    G    |    H    |
+
+### Mapeamento associativo por conjunto
+
+* A cache é dividida em conjuntos de linhas.
+* O mapeamento direto é usado para encontrar o conjunto e o associativo dentro do conjunto.
+* Por exemplo, com um  conjunto com 2 linhas (2-way) o endereço é dividido em:
+	* TAG:2
+	* Conjunto: 1
+	* Palavra: 1
+
+	| Conjunto | TAG | Palavra | Palavra |
+	|----------|-----|---------|---------|
+	|    0     | 00  |    X    |    X    |
+	|    0     | 00  |    X    |    X    |
+	|    1     | 00  |    X    |    X    |
+	|    1     | 00  |    X    |    X    |
+
+* Exemplo:
+
+	* CPU requisita: 0100, 1000, 0011, 0111
+
+	| Conjunto | TAG | Palavra | Palavra |
+	|----------|-----|---------|---------|
+	|    0     | 01  |    E    |    F    |
+	|    0     | 00  |    I    |    J    |
+	|    1     | 00  |    C    |    D    |
+	|    1     | 01  |    G    |    H    |
+
+	* Em seguida, requisita 1101 e 1110.
+
+	| Conjunto | TAG | Palavra | Palavra |
+	|----------|-----|---------|---------|
+	|    0     | 11  |    M    |    N    |
+	|    0     | 00  |    I    |    J    |
+	|    1     | 11  |    O    |    P    |
+	|    1     | 01  |    G    |    H    |
