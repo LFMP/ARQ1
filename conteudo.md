@@ -1320,9 +1320,9 @@ L3 = 8~12 MB
 * A cache é dividida em conjuntos de linhas.
 * O mapeamento direto é usado para encontrar o conjunto e o associativo dentro do conjunto.
 * Por exemplo, com um  conjunto com 2 linhas (2-way) o endereço é dividido em:
-	* TAG:2
-	* Conjunto: 1
-	* Palavra: 1
+	* TAG:2 bits
+	* Conjunto: 1 bits
+	* Palavra: 1 bits
 
 	| Conjunto | TAG | Palavra | Palavra |
 	|----------|-----|---------|---------|
@@ -1350,3 +1350,24 @@ L3 = 8~12 MB
 	|    0     | 00  |    I    |    J    |
 	|    1     | 11  |    O    |    P    |
 	|    1     | 01  |    G    |    H    |
+
+* Exemplo
+	* Considerando a apalavra com 1 byte.
+	* Cache única de 64kb
+	* Memória principal de 16 MB (24 bits)
+	* Bloco de cache de 4 Bytes
+	* Para o mapeamento associativo por con junto, connjuntos com 8 linhas (8-way)
+
+	* Direto
+		* TAG: 8 bits
+		* Linha: 64 Kb/4 = 16K linhas = 14 bits
+		* Palavra: 2 bits
+
+	* Associativo
+		* TAG: 22 bits
+		* Palavra: 2 bits
+
+	* Por conjunto
+		* TAG: 11 bits
+		* Conjunto: 3 bits
+		* Palavra: 2 bits
