@@ -1371,3 +1371,66 @@ L3 = 8~12 MB
 		* TAG: 11 bits
 		* Conjunto: 3 bits
 		* Palavra: 2 bits
+
+# Memória interna
+
+* RAM (Random Access Memory)
+	* Leitura e escrita usando sinais elétricos.
+	* Volátil
+	* SRAM (estática) e DRAM (dinâmica).
+* ROM (Read-Only Memory).
+
+## DRAM
+
+* Composta por transistor e capacitor.
+* O capacitor é usado para manter a carga no transistor.
+* Os capacitores precisam ser recarregados constantemente(refresh a cada 4 ms).
+* Densa e lenta.
+* Usada como memória principal.
+
+## SRAM
+
+* Composta por Filp-Flops.
+* Complexa, cara e menos densa, porém rápida.
+* Usada como cache.
+
+## MROM
+
+* Programada na fabricação.
+* Não podia ser escrita ou alterada.
+
+## PROM
+
+* Programmable-ROM
+* Programável com equipamento especial só uma vez.
+* Não podia ser alterada ou escrita depois da gravação.
+
+## EPROM
+
+* Erasable PROM
+* Apagável com radiação UV.
+* Demora entre 15 e 45 minutos para apagar.
+
+## EEPROM
+
+* Electrically - EPROM
+* Escrita e alterada usadando eletricidade.
+
+## Flash ROM
+
+* Similar a EEROM, porém só pode ser apagada em blocos.
+* Mais barata que EEPROM.
+
+## Formato: SIMM e DIMM
+
+* **SIMM** (Single In-Line)
+	* Contato em um lado.
+* **DIMM** (Double In-Line)
+	* Contato em dois lados.
+
+## Organização
+
+* FPM (Fast-Page Memory) - Assíncrona
+* EPO (Extended Data-Output) - Assíncrona
+* SDRAM (Síncrona - DRAM)
+* DDR (Double Data Rate)
