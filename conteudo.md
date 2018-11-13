@@ -1433,4 +1433,65 @@ L3 = 8~12 MB
 * FPM (Fast-Page Memory) - Assíncrona
 * EPO (Extended Data-Output) - Assíncrona
 * SDRAM (Síncrona - DRAM)
-* DDR (Double Data Rate)
+
+# Memória externa
+
+* Discos magnéticos (HD, disquete)
+* Óptica (CD, DVD, BluRay)
+* Flash (ROM)
+
+## HD
+
+* Escrita: a cabeça de gravação é uma bobina que é capaz de magnetizar o disco.
+* Leitura: o campo magnético no disco induz uma corrente na bobina de leitura.
+
+### Organização dos dados
+
+* O disco é dividido em anéis concêntricos, chamado de trilha.
+* Cada trilha é dividida em setores (normalmente pequenos, 512 bytes).
+* Os setores são agregados em clusters, a quantidade pode variar com a capacidade do disco.
+* O cluster é a menor unidade alocável.
+
+### Características
+
+* Cabeça móvel ou fixa.
+* Transportabilidade.
+* Múltiplos lados.
+* Múltiplos discos.
+
+### Desempenho
+
+* Tempo de busca.
+* Latência rotacional.
+* Tempo de transferência.
+
+### RAID
+
+* Array redundante de discos independentes.
+* Pode melhorar o desempenho ou confiabilidade nos dados.
+
+#### RAID 0
+
+* Separa os dados em faixas (Strip).
+* Salva os Strips nos discos no formato Round-Robin.
+* A leitura pode ser feita em paralelo.
+
+### RAID 1
+
+* Espelho total.
+* Cada disco possui outro disco que é sua cópia exata.
+
+### RAID 5
+
+* Código de correção de erro.
+* Separação em Strip.
+* Precisa de três ou mais discos.
+* Intercala Stripes com paridades e coloca de forma distribuida em todos os discos.
+
+## Memória óptica
+
+* CD-ROM.
+* CD-R (Recordable).
+* CD-RW (Rewritable)
+* DVD (Digital Video Disk) / (Digital Versatile Disk)
+* BluRay (Blue Ray)
