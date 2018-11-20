@@ -1,13 +1,13 @@
 # REGISTRADORES
 São áreas especiais dentro do processador pra armazenar informações.
 * **De uso geral:**
-    * **EAX**, usado como acumulador;
-	* **EBX**, usado para base;
-	* **ECX**, usado como contador;
-	* **EDX**, usado para dados.
+	* **RAX**, usado como acumulador;
+	* **RBX**, usado para base;
+	* **RCX**, usado como contador;
+	* **RDX**, usado para dados.
 * **Especiais:**
-	* **ESP** e **EBP**, usados em operações na pilha;
-	* **ESI** e **EDI**, usados em operações com agregados de dados.
+	* **RSP** e **RBP**, usados em operações na pilha;
+	* **RSI**(Reg. Source Index) e **RDI**(Reg. Destination Index), usados em operações com agregados de dados.
 
 # PILHA
 * Área na memória pra armazenar dados temporários.
@@ -702,3 +702,796 @@ O endereçamento se refere as diferentes maneiras que o programador pode se refe
 * O conjunto de instruções pode possuir instruções com tamanhos diferentes ou com tamanho de campos diferentes.
 * Suporte a um conjunto complexo de instruções(CISC).
 * Suporte a um conjunto reduzido de instruções(RISC).
+
+# Estrutura do Processador
+
+## Interna
+
+```
+  ---------------------         -----       ---------------------
+  |       ULA         |         |B I|       |   Registradores   |
+  |-------------------|         |A N|       |                   |
+|>| Flags de Estado   |<------->|R T|<----->|                   |
+| |-------------------|         |R E|       |RAX,RBX            |
+|>|Deslocador         |<------->|A R|<----->|                   |
+| |-------------------|         |M N|       |RSP,RBP            |
+|>|Complementador     |<------->|E O|<----->|                   |
+| |-------------------|         |N  |       |PC, MAR, MBR, IR   |
+|>|Aritmética e Lógica|<------->|T  |       |                   |
+  |-------------------|         |O  |       |                   |
+          ^                     -----       ---------------------
+          |                       ^                   |
+          |                       |                   |
+          ---------------------------------------------
+```
+
+### Registradores
+
+* Armazenamento temporário de informações.
+* De uso geral ou específico (FPU, MMX,SSE).
+* A tendecia é usar registradores específicos.
+* A quantidade e função variam bastante entre diferentes projetos.
+* Quantidade de registradores:
+	* Em teoria, quanto mais melhor.
+	* Na prática, um número muito grande não traz um ganho de performance considerável.
+* Tamanho:
+	* Grande para conter o maior endereço do sistema e uma palavra de memória.
+	* Desejável combinar dois em um só.
+	```c
+	int a     // 32 bits
+	long b    // 64 bits
+	float c   // 32 bits
+	double d  // 64 bits
+	```
+* Organização:
+  * Visíveis ao usuário.
+	* Controle de estado.
+		* Uso do SO para controlar o processo atual, o programador não consegue acessar.
+* Registradores visíveis ao usuário:
+	* Uso geral (RAX, RBX, RCX, RDX, RSI*, RDI*).
+	* Dados.
+	* Endereços (RBP, RSP).
+  * Códigos condicionais (Flags de estado).
+
+## Processador 8086
+* Uso geral : AX, BX, CX, DX
+* Endereços : BP, SP, SI, DI
+* Segmentos : CS (code), DS (data), SC(stack), ES(extra)
+	* Controle de estado.
+	* Representam a separação do espaço de memória.
+* Estado: FLAGS.
+
+### Registradores de Controle de Estado
+
+* PC
+	* Programer Counter: ele contém o endereço da próxima instrução. É incrementado no final do ciclo de busca, é alterado sempre quando se realiza um salto.
+* MAR
+	* Memory Andress Register: o operando deve estar contido no MAR para ocorrer acesso a memória. 
+* MBR
+	* Memory Buffer Register: os dados são colocados no MBR para que sejam escritos em memória.
+* IR
+	* Instructions Register: guarda o opcode da operação atual.
+
+# Função do Processador
+
+* Executar instruções.
+```
+-> Busca de Instrução  <-----
+-> Decodificação            |
+-> Busca de Operandos       |
+-> Execução                 | Reinicio
+-> Escrita dos Resultados   |
+-> Interrupção              |
+-> --------------------------
+```
+
+# PreFetch
+* No momento de execução o processador coloca uma instrução para executar e busca a próxima.
+* Antecessor do Pipeline.
+
+# Pipeline
+
+* Sobreposição temporal de fases de execução das instruções.
+* Semelhante a uma linha de montagem industrial.
+* Essa técnica aumenta o número de instruções executadas no geral, porém o tempo para uma instrução individual não é afetado.
+* Etapas:
+	* Busca de instruções(FI);
+	* Decodificação(DI);
+	* Cálculo de endereço de operandos(CO);
+	* Busca de operandos(FO);
+	* Execução(EI);
+	* Escrita dos resultados(WO).
+* O número de etapas podem variar de acordo com o assembly.
+	* Em teoria quanto mais etapas melhor o resultado.
+
+
+|  Instrução  |  1 |  2 |  3 |  4 |  5 |  6 |  7 |  8 |
+|-------------|----|----|----|----|----|----|----|----|
+|      1      | FI | DI | CO | FO | EI | WO |    |    |
+|      2      |    | FI | DI | CO | FO | EI | WO |    |
+|      3      |    |    | FI | DI | CO | FO | EI | WO |
+|      4      |    |    |    | FI | DI | CO | FO | EI |
+|      5      |    |    |    |    | FI | DI | CO | FO |
+|      6      |    |    |    |    |    | FI | DI | CO |
+|      7      |    |    |    |    |    |    | FI | DI |
+|      8      |    |    |    |    |    |    |    | FI |
+
+* Ao fazer um jump as instruções seguintes são ignoradas, esse processo de limpar o pipeline é chamado de Flush e o pipeline precisa ser preeenchido com as novas instruções, com um pipeline de muitas etapas o tempo para preencher o pipeline e soltar a próxima instrução é muito grande.
+
+## Hazerd de recursos
+
+* Duas ou mais instruções precisam do mesmo recurso.
+* Exemplo: vamos supor que a memória principal possua só uma única porta de comunicação (uma única solicitação por ciclo de clock). O processador substitui a instrução por um Stall(bolha), até que a instrução possa ser executada, se o recurso não for aumentado o pipeline ficara com muitos Stall e o uso do pipeline pode não ser muito vantajoso.
+
+## Hazerd de dados
+
+* Leitura após escrita (RAW)
+	```assembly
+	ADD RAX, RCX
+	SUB RBX, RAX
+	```
+	O Pipeline faz Stall até o valor da primeiro instrução ser escrita.
+
+* Escrita após leitura (WAR)
+	```assembly
+	ADD RAX, RBX
+	SUB RBX, RCX
+	```
+	Só existe em computadores superescalares.
+
+* Escrita após escrita (WAW)
+	```assembly
+	ADD R3, R1, R2
+	SUB R3, R4, R5
+	```
+
+* Técnicas para solucionar Hazard de Dados
+	* Reordenamento de instruções.
+	* Forwanding.
+		* Execução manda o resultado para a etapa de busca de operandos.
+	* Stall
+
+## Hazard de controle
+
+* Decisão errada sobre um salto condicional.
+	* Múltiplos pipelines podem resolver, porém entramos nos problemos de escrita após leitura por exemplo.
+	* Busca antecipada de alvo (intercala os dois caminhos)
+	* Buffer de repetição
+	* Previsão de desvio
+		* Estático
+		* Dinâmico
+
+* Previsão de desvio com 2 bits
+	* Esquerda = penúltimo salto, direita = último salto
+
+	(00 Não salta) -> (01 Não Salta)
+
+	(01 Não salta) -> (10 Salta) && (11 Salta)
+
+	(10 Salta) -> (00 Não salta) && (01 Não Salta)
+
+	(11 Salta) -> (10 Salta)
+
+# Unidade de Controle
+
+## Operações da Unidade de Controle
+
+* O objetivo da UC é sincronizar e controlar todos os aspectos internos da CPU e a comunicação com os componentes externos.
+
+### Funções
+
+* Sequeciamento e execução de micro operações
+* Geração dos sinais de controle para essa execução.
+
+## Micro-Operações
+
+* A execução de uma instrução envolve uma série de etapas mais elementares (chamado de ciclo).
+* Por exemplo, uma sequência é ciclo de busca, indireto, execução e interrupção.
+* Cada ciclo é realizado por uma série de micro-operações.
+* Uma micro-operação é uma operação atômica.
+* Tipos de micro-operações:
+	* Transferência de dados entre registradores ou com interface externa.
+	* Uma operação aritmética ou lógica.
+
+### Ciclo de busca
+
+* Registradores envolvídos: MAR, MBR, IR e PC.
+```
+t1: MAR = PC
+t2: Sinal de leitura para memória
+t3: MBR = (MEM)
+t4: IR = MBR
+t5: PC++
+```
+### Ciclo indireto
+```
+t1: MAR = IR(endereço)
+t2: Sinal de leitura para memória
+t3: MBR = (MEM)
+t4: IR(endereço) = MBR
+```
+* Ao final, o R vai estar como se o endereçamento tivesse sido usado.
+
+### Ciclo de execução
+
+* Depende da instrução.
+* Exemplos:
+```assembly
+ADD R1, X ; R1 um registrador e X uma posição da memória
+```
+```
+t1: MAR = IR(X)
+t2: Sinal de leitura para memória
+t3: MBR = (MEM)
+t4: R1 = R1 + MBR
+```
+```assembly
+ISZ X  ; x-> posição de memória
+```
+* Incrementa X em 1 e pula a próxima instrução se X for zero.
+```
+t1: MAR = PC
+t2: Sinal de leitura para memória
+t3: MBR = (MEM)
+t4: MBR = MBR + 1
+t5: Sinal de escrita para memória (X = MBR)
+t6: Verifica flag de zero, se for -> PC++
+```
+
+```assembly
+CALL PROC
+```
+-> Chama uma label e retorna para próxima instrução ao final.
+```
+t1: MBR = PC
+    RSP = RSP-8 (considerando 64 bits)
+t2: MAR = RSP
+t3: Sinal de escrita para memória (Salva pc no topo da pilha)
+    PC = PROC
+```
+
+### Ciclo de interrupção
+
+* Ao final, a UC verifica se existe interrupção habilitada.
+```
+t1: MBR = PC
+    RSP = RSP-8
+t2: MAR = RSP
+t3: Sinal de escrita para a memória
+    PC = endereço da rotina de interrupção
+```
+
+## Implementação
+
+* Em hardware: complexa e inflexível, depende do número de instruções.
+* Em software.
+* Possui como entradas:
+	* IR.
+	* Flags de estado.
+	* Clock.
+	* Sinais de controle do barramento de controle.
+* Possui como saídas:
+	* Sinais de controle interno da CPU.
+	* Sinais de controle externo.
+
+# Unidade de controle microprogramada
+
+* A lógica da Unidade de Controle é especificada por um **microprograma** contendo **microinstruções**.
+
+## Microinstrução
+
+* Para cada micro-operação a UC gera os sinais de controle correspondentes.
+* A microinstrução agrupa os sinais de controle de saída.
+
+## Elementos
+
+* Um bit para cada sinal de controle externo.
+* Um bit para cada sinal de controle interno.
+* Se houver condição para a micro-operação (não confundir com a instrução JUMP):
+	* Condição para salto.
+	* Endereço para salto.
+
+## Organização
+
+* O conjunto das microinstruções são armazenadas em uma memória de controle.
+* A memória define a sequência de micro-operações executadas em cada ciclo e o sequenciamento dessas micro-operações.
+```
+Lógica de sequenciamento -----> Registrador de endereço de controle
+Lógica de sequenciamento -----(leitura)-> Memória de Controle
+Registrador de endereço de controle -----> Memória de Controle
+Memória de Controle -----> Lógica de sequenciamento
+Memória de Controle -----> Registrador de Buffer de Controle
+Registrador de Buffer de Controle -----> Sinais de controle
+------------------------------------------------------------------------
+Memória de controle composta de Ciclos de busca, Ciclo indireto,
+Ciclo de execução, Ciclo de interrupção.
+------------------------------------------------------------------------
+```
+## Vantagens
+* Simplicidade
+* Flexibilidade
+
+## Desvantagens
+* Mais lento que implementado em hardware.
+
+# Memória Cache
+
+* A memória do computador é organizada em uma hierarquia.
+* O objetivo da cache é reduzir a necessidade de buscar as informações na memória principal.
+* O desafio é fazer com que as informações mais acessadas estejam na memória mais rápida.
+* Hierarquia de memória:
+	* Chip do processador:
+		* Registradores
+		* Cache
+		* Memória principal
+	* SSD/HD
+	* CD/DVD/BLURAY (Óptico)
+	* Fitas magnéticas
+* A medida que descemos na hierarquia de memória:
+	* O custo diminui.
+	* A capacidade aumenta.
+	* Aumenta o tempo de acesso.
+* Princípios da cache:
+	* Memória pequena e rápida entre a memória principal e o processador.
+	* Cada linha da cache armazena múltiplas linhas da memória principal. (Princípio da localidade)
+
+```
+|CPU| -----(Palavra)----- |CACHE| ----- (BLOCO) ----- |MEMÓRIA PRINCIPAL|
+Bloco = várias linhas da memória principal.
+```
+## Operação
+
+* CPU solicita o acesso a um local de memória.
+* Verifica se os dados estão na cache.
+* Se sim (Cache Hit), pega da cache.
+* Se não (Cache Miss), lê bloco da memória principal, coloca na cache e entrega para o processador.
+
+## Organização
+
+```
+-------                                                       ----------
+|     |                                                       |        |
+|     |--------------------(ENDEREÇO)------------------------>|        |
+|     |                         ^                             |B    D  |
+|     |                         |                             |A    E  |
+|     |                         V                             |R       |
+| CPU |                  |-----------|                        |R    S  |
+|     |----(CONTROLE)--->|   CACHE   |------(CONTROLE)------->|A    I  |
+|     |                  |-----------|                        |M    S  |
+|     |                         ^                             |E    T  |
+|     |                         |                             |N    E  |
+|     |                         v                             |T    M  |
+|     |----------------------(DADOS)------------------------->|O    A  |
+|     |                                                       |        |
+|     |                                                       |        |
+-------                                                       ----------
+
+```
+
+## Endereçamento
+
+* A Cache pode armazenar os dados usando memória virtual ou real.
+* Endereços reais:
+	```
+	|CPU|-|MMU|-|CACHE|-|PRINCIPAL|
+	```
+* Endereços virtuais:
+	```
+	|CPU|-|CACHE|-|MMU|-|PRINCIPAL|
+	```
+* MMU faz a tradução entre virtual e real.
+
+## Tamanho
+
+* Em teoria, quanto maior melhor.
+* Mais informaçõeslevam mais tempo para serem trazidas da memória principal.
+* O princípio da localidade acaba se perdendo.
+
+## Número de caches
+
+```
+|CPU|---| L1 |---| L2 |---| L3 |---|Memória Principal|
+L1 = 64 KB
+L2 = 256 KB
+L3 = 8~12 MB
+```
+* O objetivo é balancear desempenho e tamanho.
+
+## Algoritmo de substituição:
+
+* A cache é menor que a memória principal, logo quando ela fica cheia as linhas precisam ser substituidas.
+* Estratégias:
+	* FIFO
+	* LRU (Least Recently Used): Menos Recentemente Usado
+	* LFU (Least Frequently Used): Menos Frequentemente Usado
+	* Aleatória
+
+## Política de escrita
+
+* As alterações são feitas na cache.
+* Núcleos diferentes possum caches diferentes.
+* E/S pode alterar a memória principal.
+* Qual o momento ideal de passar as alterações na memória principal? = Política de escrita.
+* Estratégias:
+	* Write-Back: Atualização só na hora da substituição.
+		* É preciso um circuito auxiliar para manter o sincronismo entre caches de diferentes núcleos.
+		* E/S acessa a memóra por meio da cache.
+		* Maior desempenho.
+	* Write-Through: Atualiza a mamória a cada escrita.
+		* Menos problemas porém mais lento.
+	* Write-Once: Combinação de Write-Throug com Write-Back.]
+		* A primeira alteração é propagada para a memória principal e as demais ficam só na cache.
+
+## Tamanho da linha
+
+* Quantidade de palavras da memória em bloco da cache.
+* Princípio da localidade.
+* Normalmente ntre 8 e 64 palavras por bloco.
+
+## Cache Unificada vs Separada
+
+* Unificada: Dados e instruções na mesma cache.
+	* Simplicidade.
+* Separada: Dados e instruções em caches separadas.
+	* Facilita pro Pipeline.
+	* Evitar hazard de recursos entre as etapas de busca de instrução e operandos.
+
+## Mapeamento
+
+* Responsável por determinar onde cada informação da memória principal vai ser na cache.
+* O próprio endereço da memória é usado para o mapeamento.
+* Como aumentar o cache hit?
+
+* Memória
+
+	| Endereço | Valor |
+	|----------|-------|
+	|   0000   |   A   |
+	|   0001   |   B   |
+	|   0010   |   C   |
+	|   0011   |   D   |
+	|   0100   |   E   |
+	|   0101   |   F   |
+	|   0110   |   G   |
+	|   0111   |   H   |
+	|   1000   |   I   |
+	|   1001   |   J   |
+	|   1010   |   K   |
+	|   1011   |   L   |
+	|   1100   |   M   |
+	|   1101   |   N   |
+	|   1110   |   O   |
+	|   1111   |   P   |
+
+* Cache
+
+	| Linha | TAG | Palavra | Palavra |
+	|-------|-----|---------|---------|
+	|  00   |     |         |         |
+	|  01   |     |         |         |
+	|  10   |     |         |         |
+	|  11   |     |         |         |
+
+### Mapeamento direto:
+
+* Cada bloco da memória principal é mapeado para a mesma linha da cache.
+* Vantagem: simplicidade.
+* Desvantagem: Thrashing
+	* Ex.: CPU Requisita: 0101,1100,0100,1101,...
+* Então cada endereço é dividido em:
+	* TAG: Identifica unicamente cada bloco.
+	* Linha: Identifica cada linha da cache.
+	* Palavra: Identifica uma palavra dentro do bloco
+* Exempĺo:
+	* Memória com 16 bits(e bits).
+	* Cache com 4 linhas.
+	* Bloco com 2 palavras.
+	* Endereços:
+		* TAG: 1 bit.
+		* Linha: 2 bits.
+		* Palavra: 1 bit.
+	*CPU requisita: 0100, 1000, 0011 e 0111
+
+	| Linha | TAG | Palavra | Palavra |
+	|-------|-----|---------|---------|
+	|  00   |  1  |    I    |    J    |
+	|  01   |  0  |    C    |    D    |
+	|  10   |  0  |    E    |    F    |
+	|  11   |  0  |    G    |    H    |
+
+	* Em seguida requisita 1101 e 1110
+
+	| Linha | TAG | Palavra | Palavra |
+	|-------|-----|---------|---------|
+	|  00   |  1  |    I    |    J    |
+	|  01   |  0  |    C    |    D    |
+	|  10   |  1  |    M    |    N    |
+	|  11   |  1  |    O    |    P    |
+
+* Exemplo de Thrashing:
+	* CPU Requisita: 0101
+		
+	| Linha | TAG | Palavra | Palavra |
+	|-------|-----|---------|---------|
+	|  00   |  1  |    I    |    J    |
+	|  01   |  0  |    C    |    D    |
+	|  10   |  0  |    E    |    F    |
+	|  11   |  1  |    O    |    P    |
+
+	* CPU Requisita: 1100
+
+	| Linha | TAG | Palavra | Palavra |
+	|-------|-----|---------|---------|
+	|  00   |  1  |    I    |    J    |
+	|  01   |  0  |    C    |    D    |
+	|  10   |  1  |    M    |    N    |
+	|  11   |  1  |    O    |    P    |
+
+	* CPU Requisita: 0100
+
+	| Linha | TAG | Palavra | Palavra |
+	|-------|-----|---------|---------|
+	|  00   |  1  |    I    |    J    |
+	|  01   |  0  |    C    |    D    |
+	|  10   |  0  |    E    |    F    |
+	|  11   |  1  |    O    |    P    |
+
+	* CPU Requisita: 1101
+
+	| Linha | TAG | Palavra | Palavra |
+	|-------|-----|---------|---------|
+	|  00   |  1  |    I    |    J    |
+	|  01   |  0  |    C    |    D    |
+	|  10   |  1  |    M    |    N    |
+	|  11   |  1  |    O    |    P    |
+
+### Mapeamento associativo
+
+* Um bloco da memória principal pode ser colocado em qualquer linha da cache
+* Resolve o Thrashing, porém a pesquisa é complexa.
+* Endereço dividido em:
+	* TAG: 3 bits
+	* Palavra: 1 bit
+* Cache
+	| TAG | Palavra | Palavra |
+	|-----|---------|---------|
+	| 000 |         |         |
+	| 000 |         |         |
+	| 000 |         |         |
+	| 000 |         |         |
+
+* Exemplo:
+	* CPU Requisita: 0100, 1000, 0011, 0111
+
+	| TAG | Palavra | Palavra |
+	|-----|---------|---------|
+	| 010 |    E    |    F    |
+	| 100 |    I    |    J    |
+	| 001 |    C    |    D    |
+	| 011 |    G    |    H    |
+
+	* Em seguida, requisita 1101 e 1110.
+
+	| TAG | Palavra | Palavra |
+	|-----|---------|---------|
+	| 110 |    M    |    N    |
+	| 111 |    O    |    P    |
+	| 001 |    C    |    D    |
+	| 011 |    G    |    H    |	
+
+	* CPU requisita: 0101
+
+	| TAG | Palavra | Palavra |
+	|-----|---------|---------|
+	| 110 |    M    |    N    |
+	| 111 |    O    |    P    |
+	| 010 |    E    |    F    |
+	| 011 |    G    |    H    |
+
+	* CPU requisita: 1100
+
+	| TAG | Palavra | Palavra |
+	|-----|---------|---------|
+	| 110 |    M    |    N    |
+	| 111 |    O    |    P    |
+	| 010 |    E    |    F    |
+	| 011 |    G    |    H    |
+
+	* CPU requisita: 0100
+
+	| TAG | Palavra | Palavra |
+	|-----|---------|---------|
+	| 110 |    M    |    N    |
+	| 111 |    O    |    P    |
+	| 010 |    E    |    F    |
+	| 011 |    G    |    H    |
+
+	* CPU requisita: 1101
+
+	| TAG | Palavra | Palavra |
+	|-----|---------|---------|
+	| 110 |    M    |    N    |
+	| 111 |    O    |    P    |
+	| 010 |    E    |    F    |
+	| 011 |    G    |    H    |
+
+### Mapeamento associativo por conjunto
+
+* A cache é dividida em conjuntos de linhas.
+* O mapeamento direto é usado para encontrar o conjunto e o associativo dentro do conjunto.
+* Por exemplo, com um  conjunto com 2 linhas (2-way) o endereço é dividido em:
+	* TAG:2 bits
+	* Conjunto: 1 bits
+	* Palavra: 1 bits
+
+	| Conjunto | TAG | Palavra | Palavra |
+	|----------|-----|---------|---------|
+	|    0     | 00  |    X    |    X    |
+	|    0     | 00  |    X    |    X    |
+	|    1     | 00  |    X    |    X    |
+	|    1     | 00  |    X    |    X    |
+
+* Exemplo:
+
+	* CPU requisita: 0100, 1000, 0011, 0111
+
+	| Conjunto | TAG | Palavra | Palavra |
+	|----------|-----|---------|---------|
+	|    0     | 01  |    E    |    F    |
+	|    0     | 00  |    I    |    J    |
+	|    1     | 00  |    C    |    D    |
+	|    1     | 01  |    G    |    H    |
+
+	* Em seguida, requisita 1101 e 1110.
+
+	| Conjunto | TAG | Palavra | Palavra |
+	|----------|-----|---------|---------|
+	|    0     | 11  |    M    |    N    |
+	|    0     | 00  |    I    |    J    |
+	|    1     | 11  |    O    |    P    |
+	|    1     | 01  |    G    |    H    |
+
+* Exemplo
+	* Considerando a apalavra com 1 byte.
+	* Cache única de 64kb
+	* Memória principal de 16 MB (24 bits)
+	* Bloco de cache de 4 Bytes
+	* Para o mapeamento associativo por con junto, connjuntos com 8 linhas (8-way)
+
+	* Direto
+		* TAG: 8 bits
+		* Linha: 64 Kb/4 = 16K linhas = 14 bits
+		* Palavra: 2 bits
+
+	* Associativo
+		* TAG: 22 bits
+		* Palavra: 2 bits
+
+	* Por conjunto
+		* TAG: 11 bits
+		* Conjunto: 3 bits
+		* Palavra: 2 bits
+
+# Memória interna
+
+* RAM (Random Access Memory)
+	* Leitura e escrita usando sinais elétricos.
+	* Volátil
+	* SRAM (estática) e DRAM (dinâmica).
+* ROM (Read-Only Memory).
+
+## DRAM
+
+* Composta por transistor e capacitor.
+* O capacitor é usado para manter a carga no transistor.
+* Os capacitores precisam ser recarregados constantemente(refresh a cada 4 ms).
+* Densa e lenta.
+* Usada como memória principal.
+
+## SRAM
+
+* Composta por Filp-Flops.
+* Complexa, cara e menos densa, porém rápida.
+* Usada como cache.
+
+## MROM
+
+* Programada na fabricação.
+* Não podia ser escrita ou alterada.
+
+## PROM
+
+* Programmable-ROM
+* Programável com equipamento especial só uma vez.
+* Não podia ser alterada ou escrita depois da gravação.
+
+## EPROM
+
+* Erasable PROM
+* Apagável com radiação UV.
+* Demora entre 15 e 45 minutos para apagar.
+
+## EEPROM
+
+* Electrically - EPROM
+* Escrita e alterada usadando eletricidade.
+
+## Flash ROM
+
+* Similar a EEROM, porém só pode ser apagada em blocos.
+* Mais barata que EEPROM.
+
+## Formato: SIMM e DIMM
+
+* **SIMM** (Single In-Line)
+	* Contato em um lado.
+* **DIMM** (Double In-Line)
+	* Contato em dois lados.
+
+## Organização
+
+* FPM (Fast-Page Memory) - Assíncrona
+* EPO (Extended Data-Output) - Assíncrona
+* SDRAM (Síncrona - DRAM)
+
+# Memória externa
+
+* Discos magnéticos (HD, disquete)
+* Óptica (CD, DVD, BluRay)
+* Flash (ROM)
+
+## HD
+
+* Escrita: a cabeça de gravação é uma bobina que é capaz de magnetizar o disco.
+* Leitura: o campo magnético no disco induz uma corrente na bobina de leitura.
+
+### Organização dos dados
+
+* O disco é dividido em anéis concêntricos, chamado de trilha.
+* Cada trilha é dividida em setores (normalmente pequenos, 512 bytes).
+* Os setores são agregados em clusters, a quantidade pode variar com a capacidade do disco.
+* O cluster é a menor unidade alocável.
+
+### Características
+
+* Cabeça móvel ou fixa.
+* Transportabilidade.
+* Múltiplos lados.
+* Múltiplos discos.
+
+### Desempenho
+
+* Tempo de busca.
+* Latência rotacional.
+* Tempo de transferência.
+
+### RAID
+
+* Array redundante de discos independentes.
+* Pode melhorar o desempenho ou confiabilidade nos dados.
+
+#### RAID 0
+
+* Separa os dados em faixas (Strip).
+* Salva os Strips nos discos no formato Round-Robin.
+* A leitura pode ser feita em paralelo.
+
+### RAID 1
+
+* Espelho total.
+* Cada disco possui outro disco que é sua cópia exata.
+
+### RAID 5
+
+* Código de correção de erro.
+* Separação em Strip.
+* Precisa de três ou mais discos.
+* Intercala Stripes com paridades e coloca de forma distribuida em todos os discos.
+
+## Memória óptica
+
+* CD-ROM.
+* CD-R (Recordable).
+* CD-RW (Rewritable)
+* DVD (Digital Video Disk) / (Digital Versatile Disk)
+* BluRay (Blue Ray)
