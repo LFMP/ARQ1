@@ -1495,3 +1495,55 @@ L3 = 8~12 MB
 * CD-RW (Rewritable)
 * DVD (Digital Video Disk) / (Digital Versatile Disk)
 * BluRay (Blue Ray)
+
+# Entrada/Saída(E/S)
+
+* Dispositivos de E/S são conectados a controladores/ módulos que se conectam com o barramento.
+
+## Módulos E/S
+
+* Os periféricos não são conectados diretamento no barramento por motivos de:
+	* Grade variedade de dispositivos;
+  * Velocidades diferentes;
+	* Quantidade de dados diferentes;
+	* Todos mais lentos que a CPU e a memória.
+* Funções:
+	* Temporização (sincronização)
+	* Buffering de dados (usado para sincronização)
+		* Permite que o barramento funcione na velocidade que quiser.
+	* Detecção de erro
+
+## Técnicas de E/S
+
+* E/S envolve transferência de dados, como fazer essa transferência?
+
+* **E/S programada:**
+	* CPU controla todo o processo, logo, ela espera pela operação inteira
+
+* **E/S controlada por interrupção:**
+	1. CPU faz a requisição de E/S.
+	2. CPU muda o processo em execução (faz alguma coisa útil).
+	3. Quando a E/S termina ela interrompe a CPU.
+	4. CPU faz a transferência.
+
+* **E/S com acesso direto à memória (DMA):**
+	* CPU não precisa fazer a transferência.
+	* A controladora de DMA é responsável pela transferência.
+	* CPU tem que informar para DMA qual região da memória pode ser acessada.
+
+## Endereçamento de E/S
+
+* Memória e E/S compartilham o mesmo barramento, como endereçar E/S?
+	* Mapeada na memória.
+	* Independente.
+
+### Mapeamento na memória
+
+* Alguns endereços na memória são reservados para E/S.
+* Assim uma instrução que acessa tal posição, está na verdade acessando o dispositivo de E/S.
+* Normalmente utilizado em CISC.
+
+### Independente
+
+* Precisa de instruções específicas para E/S.
+* Normalmente utilizado em RISC.
