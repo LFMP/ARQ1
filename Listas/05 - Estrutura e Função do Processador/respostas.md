@@ -47,7 +47,7 @@
 23. Um processador de pipeline tem uma taxa de clock de 2.5 Ghz e executa um programa de 2 milhões de instruções. O pipeline possui cinco estágios e as instruções são emitidas numa taxa e uma por ciclo de clock. Ignore as penalidades por causa das instruções de desvio e execuções fora de ordem.
 
     1. Qual a diferença de velocidade deste processador para este programa comparado a um processador sem pipeline.
-    
+
     2. Qual o rendimento em MIPS do processador com pipeline?
 
 24. Um processador sem pipeline tem uma taxa de clock de 2.5 Ghz e um CPI médio de 4. Uma atualização no processador introduz um pipeline de cinco estágios com um CPI médio de 1. No entanto, por causa dos atrasos internos do pipeline, a taxa de clock do novo processador deve ser reduzida para 2 Ghz.
