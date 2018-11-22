@@ -51,29 +51,78 @@
 
 10. **O que é a busca antecipada (pre-fetch)? Ela aumenta a performance da CPU?**
 
+    * Buscar a próxima instrução durante execução da instrução atual. Aumenta a performance, mas não dobra, a operação de busca (fetch) é em geral mais curta que a execução. Em casos de jump (desvios) as instruções pré-buscadas (prefetched) não serão as instruções necessárias.
+
 11. **O que é pipelining? O que ele melhora em termos de desempenho da CPU?**
+
+    * É uma técnica de implementação de processadores que permite a sobreposição temporal das diversas fases de execução das instruções. É semelhante a uma linha de montagem industrial, onde produtos em vários estágios podem ser trabalhados simultaneamente. Este processo é também chamado de pipelining, porque assim como em uma tubulação, novas entradas são aceitas num lado antes que as entradas aceitas anteriormente apareçam como saídas do outro lado, ou seja, várias instruções são executadas ao mesmo tempo.
 
 12. **Discurse sobre a frase "O pipeline não reduz o tempo gasto para completar cada instrução individualmente".**
 
+    * Cada instrução continua sendo executada por completa no pipeline, ou seja, ainda tem que fazer a busca, a decodificação, a execução e a escrita, o que não reduz o tempo gasto por instrução, pelo contrário, se houver hazzard o tempo para executar a instrução indivídualmente é menor se comparado com o que ocorre no pipeline.
+
 13. **Cite as fases mais comuns de existirem em um pipeline.**
+
+    * Buscar instrução (FI – Fetch Instruction).
+    * Decodificar instrução (DI – Decode Instruction).
+    * Calcular operandos (CO – Calculate Operands).
+    * Buscar operandos (FO – Fetch Operands).
+    * Executar instrução (EI – Execute Instruction).
+    * Escrever resultado (WO – Write Operand).
 
 14. **O que é um hazard no pipeline? Quais tipos de hazard podem existir?**
 
+    * O hazard é algum problema com o fluxo de instruções no pipeline, assim ele precisa parar totalmente ou em partes. Podem ser de recursos (estrutural), de dados e de controle.
+
 15. **Explique o que é um hazard de recursos. Exemplifique. Qual solução pode ser adotada para resolver este tipo de problema?**
+
+    * Duas (ou mais) instruções no pipeline precisam do mesmo recurso. Suponha que a memória principal tenha uma única porta para comunicação, a busca de instrução e leitura/escrita de dados devem ser feitas uma por vez, o problema é que a leitura/escrita de operando não podem ser realizadas em paralelo com busca de instrução. Estágio de busca de instrução fica ocioso por um ciclo. Uma solução é aumentar recursos disponíveis. Neste caso, aumentar as portas de acesso a memória principal.
 
 16. **Em quais subtipos podem ser divididos os hazards de dados? Exemplifique cada um desses tipos.**
 
+    * Leitura após escrita (RAW):
+        * Uma instrução modifica um registrador ou local de memória, a instrução seguinte lê dados nesse local. O hazard ocorre se leitura for antes do término da escrita.
+        ```assembly
+        add rax, rbx
+        sub rcx , rax
+        ```
+    * Escrita após escrita (WAW):
+        * Duas instruções escrevem no mesmo local. O hazard ocorre se a escrita ocorre na ordem contrária à sequência intencionada.
+        ```assembly
+        add r3, r2 , r1
+        sub r3, r4 , r5
+        ```
+
 17. **Geralmente, quando ocorre um hazard no pipeline é necessário que se faça pará-lo por uma quantidade de tempo. Como isto pode ser feito?**
+
+    * Inserção proposital de uma bolha no pipeline para atrasar a execução da instrução, ganhando tempo para a instrução posterior. Uso de instruções NOOP (No Operation).
 
 18. **Porque a leitura após escrita (RAW) também é chamada de dependência verdadeira?**
 
+    * uma instrução modifi ca um registrador ou uma posição de memória e uma instrução subsequente lê os dados dessa posição de memória ou registrador. O hazard ocorre quando a operação de leitura acontece antes da escrita ter sido completada.
+
 19. **Quais técnicas podemos utilizar para resolver hazards de dados?**
+
+    * Forwarding: Os resultados da execução são enviados para a busca de operandos para evitar a dependência de dados
+    * Reordenação de código: Um compilador inteligente reordena o código em Assembly para evitar esses tipos de dependência.
+    * Inserção de bolhas: Inserção proposital de uma bolha no pipeline para atrasar a execução da instrução, ganhando tempo para a instrução posterior. Uso de instruções NOOP (No Operation).
 
 20. **O que é um hazard de controle? Quais formas podem ser utilizadas para lidar com este tipo de problema? Explique brevemente cada uma delas.**
 
+    * O pipeline toma uma decisão errada sobre a previsão de desvio. O pipeline fica com instruções que precisam ser descartadas subsequentemente, o descarte pode ser feito com as técnicas abaixo.
+        * Múltiplos fluxos: Uma abordagem tipo força bruta é replicar as partes inicias do pipeline e permitir que pipeline obtenha as duas instruções, fazendo assim uso de dois fluxos.
+        * Busca antecipada do alvo do desvio: Quando um desvio condicional é reconhecido, o alvo do desvio é lido antecipadamente, além da instrução que segue o desvio. Esse alvo é então salvo até que a instrução de desvio seja executada. Se o desvio for tomado, o alvo já foi obtido.
+        * Buffer de laço de repetição: Um buffer de laço de repetição é uma memória pequena e extremamente rápida mantida pelo estágio do pipeline de busca da instrução e que contém n instruções mais recentemente lidas na sequência. Se um desvio está para ser tomado, o hardware primeiro verifica se o alvo do desvio já está no buffer. Se estiver, a próxima instrução é obtida do buffer.
+        * Previsão de desvio ( branch prediction): O pipeline tenta prever se um desvio condicional será tomado ou não.
+        * Desvio atrasado: É possível melhorar o desempenho do pipeline rearranjando automaticamente as instruções dentro de um programa, para que as instruções ocorram depois do que realmente desejado.
+
 21. **Porque as técnicas para solução de hazards de controle podem ser divididas em estáticas e dinâmicas?**
 
+    * Pois é uma decisão de projeto, as técnicas estáticas não necessitam guardar dados adicionais, apenas tomam a decisão de saltar sem verificar nenhuma condição, o que é mais rápido porém não possui um acerto considerável em alguns casos, enquanto as técnicas dinâmicas guardam informações, fazem algum processamento e então saltam ou não, o que toma mais tempo mas aumenta a quantidade de acertos.
+
 22. **Explique o funcionamento da técnica de lidar com hazards de controle chamada previsão de desvio.**
+
+    * O pipeline tenta prever se um desvio condicional será tomado ou não. Técnicas de previsão dinâmicas usadas: por opcode, chave tomada/não tomada e tabela de histórico de desvio.
 
 23. **Um processador de pipeline tem uma taxa de clock de 2.5 Ghz e executa um programa de 2 milhões de instruções. O pipeline possui cinco estágios e as instruções são emitidas numa taxa e uma por ciclo de clock. Ignore as penalidades por causa das instruções de desvio e execuções fora de ordem.**
 

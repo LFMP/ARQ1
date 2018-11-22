@@ -1547,3 +1547,69 @@ L3 = 8~12 MB
 
 * Precisa de instruções específicas para E/S.
 * Normalmente utilizado em RISC.
+
+# Grandes avanlços da arquitetura e organização de computadores
+
+## Conceito de Família (1964)
+
+* Separação da arquitetura (Assembly) da implementação (Organização).
+
+## Unidade de Controle Microprogramada (1964)
+
+* Facilita a implementação da UC.
+
+## Cache (1968)
+
+* Aumenta drasticamente o desempenho da memória.
+
+## Pipeline (1989)
+
+* Paralelismo à nível de instrução.
+
+## Múltiplos Núcleos/Processadores (2003)
+
+* Paralelismo à nível de processos.
+
+## CISC (Complex Instruction Set Computer)
+
+* Custo do software cada vez maior.
+* As linguagens evoluíram para suportar construções complexas para facilitar a programação.
+* Assim existe uma diferença semântica entre as linguagens e o Assembly.
+* **Vantagens:**
+	* Facilita a criação de compiladores.
+	* Permite linguagens cada vez mais poderosas.
+	* Gera um Assembly com dícionário de instruções grande e complexo.
+* **Desvantagens:**
+	* Instruções complexas nem sempre facilitam o compilador.
+	* Opcodes maiores (menos espaço para operandos).
+	* Muitos tipos de endereçamento exigem mais bits para seleção.
+	* UC complexa.
+	* Normalmente a maioria das instruções são simples e acabam levando mais tempo.
+
+## RISC
+
+* Na prática, um programa típico contém muitas instruções de:
+	1. Atribuição.
+	2. Instruções condicionais (if, laço,etc).
+	3. Chamada de procedimentos.
+	* Acesso à variáveis locais.
+* Princípios RISC:
+	* Grande número de registradores.
+	* Projeto cuidadoso do pipeline para lidar com desvio.
+	* Instruções simples.
+* Características:
+	* Grande número de registradores.
+	* Execução de instruções em um ciclo.
+	* Operações somente entre registradores.
+	* Geralmente só dois modos de endereçamento (imediato e direto).
+	* Só um formato de instrução.
+	* UC em hardware.
+
+### Janela de registradores
+
+* Múltiplos conjuntos com poucos registradores.
+* A chamada de procedimento trocam para um conjunto diferente de registradores.
+* Três tipos de registradores:
+	* Parâmetros (entrados de procedimentos).
+	* Variáveis locais.
+	* Temporário ---(chamada de procedimento)-->Parâmetros, variáveis locais...
