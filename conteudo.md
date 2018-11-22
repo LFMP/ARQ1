@@ -1613,3 +1613,22 @@ L3 = 8~12 MB
 	* Parâmetros (entrados de procedimentos).
 	* Variáveis locais.
 	* Temporário ---(chamada de procedimento)-->Parâmetros, variáveis locais...
+
+### Otimização de pipeline
+
+* Pipeline com no máximo três estágio (busca, execução e memória).
+* Perca mínimo no salto.
+* Desvio Atrasado:
+	```assembly
+	LOAD $R1, X
+	ADD $R2, $R1, 10
+	JUMP CONDICIONAL $R3, $R2, 20
+	ADD $R3, $R2, 20
+	STORE Y, $R3
+	```
+	Ciclos:
+	| 1 | 2 | 3 | 4 | 5 | 7 | 8 |
+	|---|---|---|---|---|---|---|
+	| B | E | M |   |   |   |   |
+	|   | B |`S`| E |   |   |   |
+	|   |   |   | B | E |   |   |
