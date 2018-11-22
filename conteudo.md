@@ -1632,3 +1632,6 @@ L3 = 8~12 MB
 	| B | E | M |   |   |   |   |
 	|   | B |`S`| E |   |   |   |
 	|   |   |   | B | E |   |   |
+
+* Carregamento (`LOAD`) atrasado.
+* Desenrolamento de laço.
