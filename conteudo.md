@@ -818,12 +818,12 @@ O endereçamento se refere as diferentes maneiras que o programador pode se refe
 
 * Ao fazer um jump as instruções seguintes são ignoradas, esse processo de limpar o pipeline é chamado de Flush e o pipeline precisa ser preeenchido com as novas instruções, com um pipeline de muitas etapas o tempo para preencher o pipeline e soltar a próxima instrução é muito grande.
 
-## Hazerd de recursos
+## Hazard de recursos
 
 * Duas ou mais instruções precisam do mesmo recurso.
 * Exemplo: vamos supor que a memória principal possua só uma única porta de comunicação (uma única solicitação por ciclo de clock). O processador substitui a instrução por um Stall(bolha), até que a instrução possa ser executada, se o recurso não for aumentado o pipeline ficara com muitos Stall e o uso do pipeline pode não ser muito vantajoso.
 
-## Hazerd de dados
+## Hazard de dados
 
 * Leitura após escrita (RAW)
 	```assembly
@@ -1630,7 +1630,7 @@ L3 = 8~12 MB
 	| 1 | 2 | 3 | 4 | 5 | 7 | 8 |
 	|---|---|---|---|---|---|---|
 	| B | E | M |   |   |   |   |
-	|   | B |`S`| E |   |   |   |
+	|   | B | S | E |   |   |   |
 	|   |   |   | B | E |   |   |
 
 * Carregamento (`LOAD`) atrasado.
