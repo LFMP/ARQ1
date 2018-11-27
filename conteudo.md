@@ -1626,12 +1626,13 @@ L3 = 8~12 MB
 	ADD $R3, $R2, 20
 	STORE Y, $R3
 	```
-	Ciclos:
-	| 1 | 2 | 3 | 4 | 5 |
-	|---|---|---|---|---|
-	| B | E | M |   |   |
-	|   | B | S | E |   |
-	|   |   |   | B | E |
+* Ciclos:
+
+| 1 | 2 | 3 | 4 | 5 |
+|---|---|---|---|---|
+| B | E | M |   |   |
+|   | B | S | E |   |
+|   |   |   | B | E |
 
 * Carregamento (`LOAD`) atrasado.
 * Desenrolamento de laço.
