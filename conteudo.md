@@ -1627,11 +1627,11 @@ L3 = 8~12 MB
 	STORE Y, $R3
 	```
 	Ciclos:
-	| 1 | 2 | 3 | 4 | 5 | 7 | 8 |
-	|---|---|---|---|---|---|---|
-	| B | E | M |   |   |   |   |
-	|   | B | S | E |   |   |   |
-	|   |   |   | B | E |   |   |
+	| 1 | 2 | 3 | 4 | 5 |
+	|---|---|---|---|---|
+	| B | E | M |   |   |
+	|   | B | S | E |   |
+	|   |   |   | B | E |
 
 * Carregamento (`LOAD`) atrasado.
 * Desenrolamento de laço.
