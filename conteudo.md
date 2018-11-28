@@ -1253,6 +1253,7 @@ L3 = 8~12 MB
 	* TAG: 3 bits
 	* Palavra: 1 bit
 * Cache
+
 	| TAG | Palavra | Palavra |
 	|-----|---------|---------|
 	| 000 |         |         |
